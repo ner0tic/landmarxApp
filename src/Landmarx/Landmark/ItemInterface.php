@@ -122,6 +122,39 @@ interface ItemInterface extends  \ArrayAccess, \Countable, \IteratorAggregate {
      * @return ItemInterface|null
      */
     public function getChild($name);
+    
+    /**
+     * @return array
+     */
+    public function getAttributes();
+
+    /**
+     * Provides a fluent interface
+     *
+     * @param array $attributes
+     *
+     * @return ItemInterface
+     */
+    public function setAttributes(array $attributes);
+
+    /**
+     * @param string $name    The name of the attribute to return
+     * @param mixed  $default The value to return if the attribute doesn't exist
+     *
+     * @return mixed
+     */
+    public function getAttribute($name, $default = null);
+
+    /**
+     * Provides a fluent interface
+     *
+     * @param string $name
+     * @param mixed  $value
+     *
+     * @return ItemInterface
+     */
+    public function setAttribute($name, $value);
+
 
     /**
      * Moves child to specified position. Rearange other children accordingly.

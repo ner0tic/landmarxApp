@@ -3,7 +3,7 @@
 namespace Landmarx\Landmark;
 
 /**
- * Factory to create a menu from a tree
+ * Factory to create a landmark from a tree
  */
 class LandmarkFactory implements FactoryInterface {
     public function createItem($name, array $options = array()) {
@@ -28,7 +28,8 @@ class LandmarkFactory implements FactoryInterface {
                 'name' => null,
                 'description' => null,
                 'latitude' => null,
-                'longitude' => null,                
+                'longitude' => null,     
+                'attributes' => array()
             ),
             $options
         );
@@ -45,7 +46,8 @@ class LandmarkFactory implements FactoryInterface {
             ->setName($options['name'])
             ->setDescription($options['description'])
             ->setLatitude($options['latitude'])
-            ->setLongitude($options['lontitude']);
+            ->setLongitude($options['longitude'])
+            ->setAttributes($options['attributes']);
     }
 
     public function createFromNode(NodeInterface $node) {

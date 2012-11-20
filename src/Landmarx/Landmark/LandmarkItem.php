@@ -8,14 +8,16 @@
     protected $name = null;
     
     protected $description = null;
+        
+    protected $latitude = null;
+    
+    protected $longtiude = null;
+    
+    protected $attributes = array();
     
     protected $parent = null;
     
     protected $children = array();
-    
-    protected $latitude = null;
-    
-    protected $longtiude = null;
     
     protected $factory;
     
@@ -162,6 +164,34 @@
       return $this;
     }
 
+    public function getAttributes()
+    {
+        return $this->attributes;
+    }
+
+    public function setAttributes(array $attributes)
+    {
+        $this->attributes = $attributes;
+
+        return $this;
+    }
+
+    public function getAttribute($name, $default = null)
+    {
+        if (isset($this->attributes[$name])) {
+            return $this->attributes[$name];
+        }
+
+        return $default;
+    }
+
+    public function setAttribute($name, $value)
+    {
+        $this->attributes[$name] = $value;
+
+        return $this;
+    }
+    
     public function copy() {
       $_landmark = clone $this;
       $_landmark->children = array();

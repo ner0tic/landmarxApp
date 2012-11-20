@@ -7,7 +7,7 @@ namespace Landmarx\Landmark;
  */
 interface FactoryInterface {
     /**
-     * Creates a menu item
+     * Creates a landmark item
      *
      * @param string $name
      * @param array  $options
@@ -17,7 +17,7 @@ interface FactoryInterface {
     public function createItem($name, array $options = array());
 
     /**
-     * Create a menu item from a NodeInterface
+     * Create a landmark item from a NodeInterface
      *
      * @param NodeInterface $node
      *
@@ -26,11 +26,11 @@ interface FactoryInterface {
     public function createFromNode(NodeInterface $node);
 
     /**
-     * Creates a new menu item (and tree if $data['children'] is set).
+     * Creates a new landmark item (and tree if $data['children'] is set).
      *
-     * The source is an array of data that should match the output from MenuItem->toArray().
+     * The source is an array of data that should match the output from LandmarkItem->toArray().
      *
-     * @param array $data The array of data to use as a source for the menu tree
+     * @param array $data The array of data to use as a source for the landmark tree
      *
      * @return ItemInterface
      */
