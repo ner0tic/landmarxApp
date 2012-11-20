@@ -74,7 +74,7 @@ interface ItemInterface extends  \ArrayAccess, \Countable, \IteratorAggregate {
      * 
      * return $longiude
      */
-    public function getLongtitude();
+    public function getLongitude();
     
     /**
      * Sets the longitude for the landmark item
