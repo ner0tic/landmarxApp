@@ -79,7 +79,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     // prints a visual representation of our basic testing tree
     protected function printTestTree()
     {
-        print('      Landmark Structure   '."\n");
+        print('  Landmark Structure   '."\n");
         print('               rt      '."\n");
         print('             /    \    '."\n");
         print('          pt1      pt2 '."\n");

@@ -236,13 +236,6 @@ class LandmarkItemTreeTest extends TestCase
         $this->pt1->setName('Parent 2');
     }
 
-    public function testGetUri()
-    {
-        $this->addChildWithExternalUrl();
-        $this->assertNull($this->pt1->getUri());
-        $this->assertEquals('http://www.symfony-reloaded.org', $this->landmark['child']->getUri());
-    }
-
     /**
      * @dataProvider getSliceData
      */

@@ -26,6 +26,12 @@
       $this->factory = $factory;
     }
     
+    public function setFactory(FactoryInterface $factory) {
+      $this->factory = $factory;
+
+      return $this;
+    }
+    
     public function getName() {
       return $this->name;      
     }
@@ -36,7 +42,7 @@
       
       $parent = $this->getParent();
       if(is_null($parent) && isset($parent['name']))
-        throw new InvArg('Landmark Name is already used.');
+        throw new InvArg('Landmark name is already used.');
       
       $_name = $this->name;
       $this->name = $name;
@@ -75,7 +81,7 @@
       return $this->longtiude;
     }
     
-    public function setLogitude($lng) {
+    public function setLongitude($lng) {
       $this->longtiude = $lng;
       return $this;
     }
