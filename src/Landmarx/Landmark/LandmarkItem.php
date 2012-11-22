@@ -5,22 +5,60 @@
   use \ArrayIterator as Itt;
 
   class LandmarkItem implements ItemInterface {
+    /**
+     * Name of this landmark item
+     * @var string $name 
+     */
     protected $name = null;
     
+    /**
+     * A description about this landmark item
+     * @var string $description
+     */
     protected $description = null;
         
+    /**
+     * Decimal representation of latitude coordinates
+     * @var float $latitude 
+     */
     protected $latitude = null;
     
+    /**
+     * Decimarl representation of longitude coordinates
+     * @var float $longitude
+     */
     protected $longtiude = null;
     
+    /**
+     * Array of landmark attributes
+     * @var array $attributes 
+     */
     protected $attributes = array();
     
+    /**
+     * The parent landmark item for this landmark item
+     * @var Landmarx\Landmark\LandmarkItem $parent 
+     */
     protected $parent = null;
     
+    /**
+     * Array of landmark items with this landmark item as their parent
+     * @var array $children 
+     */
     protected $children = array();
     
+    /**
+     * A landmark item factory
+     * @var Landmarx\Landmark\FactoryInterface $factory
+     */
     protected $factory;
     
+    /**
+     * Class constructor
+     * 
+     * @param string $name The name of this landmark
+     * @param \Landmarx\Landmark\FactoryInterface $factory
+     */
     public function __construct($name, FactoryInterface $factory) {
       $this->name = $name;
       $this->factory = $factory;
@@ -36,6 +74,14 @@
       return $this->name;      
     }
     
+    /**
+     * Checks if given name is laredy in use within the landmark tree
+     * Throws exception is is used.
+     * 
+     * @param string $name
+     * @return string|\Landmarx\Landmark\LandmarkItem
+     * @throws InvalidArgumentException
+     */
     public function setName($name) {
       if($this->name == $name)  
         return this;
@@ -86,6 +132,15 @@
       return $this;
     }
     
+    /**
+     * Returns either a string representation or an array of coordinates 
+     * Allows for custom limiters in the string
+     * 
+     * @param boolean $asString return coordinates either as a string or an array
+     * @param type $delimiter if being returned as a string, this is how 
+     *                        they coords are split up.
+     * @return string|array
+     */
     public function getLatLng($asString = false, $delimiter = ', ') {
       if(!is_null($this->latitude) || !is_null($this->longtiude))
         return false;
@@ -93,6 +148,14 @@
       else return array($this->latitude,$this->longtiude);
     }
     
+    /**
+     * Set the coordinates either via an array or as 2 separate variables
+     * 
+     * @param array|float $lat
+     * @param float $lng
+     * @return \Landmarx\Landmark\LandmarkItem
+     * @throws InvalidArgumentException
+     */
     public function setLatLng($lat,$lng = null) {
       if((is_null($lng) && !is_array($lat)) || (is_null($lat)))
         throw new InvArg('must pass an array or two variables.');
@@ -107,6 +170,15 @@
       return $this;
     }
     
+    /**
+     * Add a new child to this landmark item
+     * Takes in an instance of a landmarkItem or as string name
+     * 
+     * @param string|Landmarx\Landmark\LandmarkItemInterface $child
+     * @param array $options
+     * @return Landmarx\Landmark\LandmarkItem
+     * @throws InvalidArgumentException
+     */
     public function addChild($child, array $options = array()) {
       if(!$child instanceof ItemInterface)  $child = $this->factory->createItem($child, $options);
       elseif(null !== $child->getParent())
