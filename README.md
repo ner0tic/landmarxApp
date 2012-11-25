@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Landmarx Landmark Mapping Library
 =================================
 The LandmarxLandmark library provides object oriented nodes that connect to map given data.  It is used by the [LandmarxBundle](https://github.com/ner0tic/Landmarx/tree/bundle) for Symfony2 but can now be used stand-alone.
@@ -49,3 +50,9 @@ What Now?
 Credits
 ============
 Based on [KnpMenu](https://github.com/KnpLabs/KnpMenu)
+=======
+landmarxApp
+===========
+
+landmarx web application
+>>>>>>> 6e08810068c7e0999f290a187ce961a151c6da4b
