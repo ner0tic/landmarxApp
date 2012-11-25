@@ -5,12 +5,19 @@ app/bootstrap*
 vendor/*
 */logs/*
 */cache/*
-web/uploads/*
-web/bundles/*
+web/*
 
 # Configuration files
 app/config/parameters.ini
 app/config/parameters.yml
 
-# Ide files
+# Composer
+composer.phar
+composer.lock
+
+# Misc
+*~
 nbproject/*
+
+
+/composer.phar

@@ -1,36 +1,57 @@
 {
-    "name":         "ner0tic/landmarx",
-    "type":         "library",
-    "description":  "An object oriented landmark mapping library",
-    "keywords":     ["landmark", "tree"],
-    "homepage":     "http://daviddurost.net",
-    "license":      "MIT",
-    "authors":      [
-        {
-            "name":     "Landmarx",
-            "homepage": "http://daviddurost.net"
-        },
-        {
-            "name":     "Christophe Coevoet",
-            "email":    "stof@notk.org"
-        },
-        {
-            "name":     "Symfony Community",
-            "homepage": "https://github.com/KnpLabs/KnpMenu/contributors"
+    "require": {
+        "php":                                                    ">=5.3.2",
+        "doctrine/doctrine-bundle":                               "dev-master",
+        "symfony/symfony":                                        "2.1.*",
+        "doctrine/dbal":                                          "2.2.2.0",
+        "doctrine/orm":                                           ">=2.2.3,<2.4-dev",
+        "twig/extensions":                                        "dev-master",
+
+        "symfony/assetic-bundle":                                 "2.1.0",
+        "kriswallsmith/assetic":                                  "1.1.x-dev",
+        
+        "sensio/generator-bundle":                                "2.1.*",
+        "symfony/translation":                                    "*",
+        "symfony/framework-bundle":                               "2.1.*",
+        "sensio/distribution-bundle":                             "v2.1.1",
+        
+        "jms/aop-bundle":                                         "1.0.0.0",
+        "jms/security-extra-bundle":                              "1.2.0",
+        "jms/di-extra-bundle":                                    "1.1.*",
+        
+        "symfony/security-bundle":                                "2.1.*",
+        "symfony/swiftmailer-bundle":                             "2.1.*",
+        "symfony/monolog-bundle":                                 "2.1.*",
+
+        "sensio/framework-extra-bundle":                          "2.1.*",
+
+        "doctrine/data-fixtures":                                 "dev-master",
+        "doctrine/doctrine-fixtures-bundle":                      "dev-master",
+        "gedmo/doctrine-extensions":                              "2.3.x-dev",
+        "stof/doctrine-extensions-bundle":                        "dev-master",
+
+        "friendsofsymfony/user-bundle":                           "dev-master",
+
+        "kriswallsmith/buzz":                                     "v0.7",
+        
+        "willdurand/geocoder":                                    ">=1.0.0",
+        "egeloen/google-map-bundle":                              "1.0",
+        "oh/google-map-form-type-bundle":                         "dev-master",
+        
+        "white-october/pagerfanta-bundle":                        "dev-master",
+        "pagerfanta/pagerfanta":                                  "dev-master",
+                
+        "elao/web-profiler-extra-bundle":                         "dev-master",
+        
+        "ner0tic/landmarx":                                       "*",
+        "ner0tic/landmarx-bundle":                                "*"
+    },
+
+    "autoload": {
+        "psr-0": {
+            "Acme": "src/",
+            "LandmarxApp": "src/"
         }
-    ],
-    "require":      {
-        "php":  ">=5.3.0"
     },
-    "require-dev":  {
-        "twig/twig":    ">=1.2,<2.0-dev"
-    },
-    "suggest":      {
-        "twig/twig":    "for the TwigRenderer and the integration with your templates"
-    },
-    "autoload":     {
-        "psr-0": { "Landmarx\\": "src/" }
-    },
-    
     "minimum-stability": "dev"
 }
