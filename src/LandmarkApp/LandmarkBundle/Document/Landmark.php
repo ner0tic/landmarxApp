@@ -3,11 +3,26 @@ namespace Landmarx\LandmarkBundle\Document;
 
 use Landmarx\Landmark\LandmarkItem;
 use Landmarx\LandmarkBundle\Document\LandmarkCategory;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
+/**
+ * @MongoDB\Document
+ */
 class Landmark extends LandmarkItem 
 {
+  /**
+   * @MongoDB\Id 
+   */
+  protected $id;
+  
+  /**
+   * @var type 
+   */
   protected $categories = array();
   
+  /**
+   * @var type 
+   */
   protected $primary_category = null;
   
   public function getCategories()
