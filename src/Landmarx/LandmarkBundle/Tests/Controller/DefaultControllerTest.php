@@ -1,6 +1,6 @@
 <?php
 
-namespace LandmarkApp\LandmarkBundle\Tests\Controller;
+namespace Landmarx\LandmarkBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

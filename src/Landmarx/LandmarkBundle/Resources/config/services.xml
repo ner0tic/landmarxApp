@@ -6,11 +6,11 @@
 
     <!--
     <parameters>
-        <parameter key="landmark_app_landmark.example.class">LandmarkApp\LandmarkBundle\Example</parameter>
+        <parameter key="landmarx_landmark.example.class">Landmarx\LandmarkBundle\Example</parameter>
     </parameters>
 
     <services>
-        <service id="landmark_app_landmark.example" class="%landmark_app_landmark.example.class%">
+        <service id="landmarx_landmark.example" class="%landmarx_landmark.example.class%">
             <argument type="service" id="service_id" />
             <argument>plain_value</argument>
             <argument>%parameter_name%</argument>

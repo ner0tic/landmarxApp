@@ -1,5 +1,5 @@
 imports:
-    - { resource: parameters.yml }
+    - { resource: parameters.ini }
     - { resource: security.yml }
     - { resource: services.yml }
 
@@ -30,7 +30,7 @@ twig:
 assetic:
     debug:          %kernel.debug%
     use_controller: false
-    bundles:        [ 'OhGoogleMapFormTypeBundle' ]
+    #bundles:        
     #java: /usr/bin/java
     filters:
         cssrewrite: ~
@@ -61,18 +61,6 @@ swiftmailer:
 jms_security_extra:
     secure_controllers:  true
     secure_all_services: false
-# FOS
-fos_user:
-    db_driver: orm # mongodb, couchdb, propel
-    firewall_name: secured_area
-    user_class: Landmarx\UserBundle\Entity\User
-fos_facebook:
-    file:   %kernel.root_dir%/../vendor/facebook/php-sdk/src/base_facebook.php
-    alias:  facebook
-    app_id: 372015999497389
-    secret: 0d6e91a212b6e50507e251a67a30473a
-    cookie: true
-    permissions: [email, user_birthday, user_location]    
 
 # JMS
 jms_security_extra:
@@ -98,110 +86,3 @@ jms_security_extra:
     method_access_control: { }
 jms_aop:
     cache_dir: %kernel.cache_dir%/jms_aop
-
-ivory_google_map:
-    map:
-      # map js prefix
-      prefix_javascript_variable: "map_"
-      # map contianer id
-      html_container: "map"
-      # async?
-      async: false
-      # auto zoom
-      auto_zoom: false
-      # map center - ignored if auto_zoom is enabled
-      center:
-          longitude:  0
-          latitude:   0
-          no_wrap:    true
-      # default zoom - ignored if auto_zoom is enabled
-      zoom: 3
-      # map bounds - ignored if auto_zoom is disabled
-      ## if bound extends overlays, coords of overlays are extended instead
-      ## default: no bound
-      bound:
-          south_west:
-              latitude:   -2.1
-              longitude:  1.4
-              no_wrap:    true
-          north_east:
-              latitude:   2.6
-              longitude:  1.4
-              no_wrap:    true
-      # map type - hybrid, roadmap, satellite, terrain
-      type: "roadmap"
-      # map width
-      width:  "100%"
-      # map height
-      height: "100%"
-      # map options
-      map_options:
-          disableDefaultUI:       true
-          disableDoubleClickZoom: true
-      # map stylesheet options
-      stylesheet_options:
-          position: "absolute"
-          top:      "32px"
-          left:     "0px"
-          z-index:  "-100"
-      # google maps API language, default: en
-      language: en
-    geocoder:
-      # geocoder class
-      class: "Ivory\GoogleMapBundle\Model\Services\Geocoding\Geocoder"
-      provider:
-        # replaces REMOTE_ADDR value
-        #fake_ip: "64.233.160.0"
-        # provider class
-        class: "Ivory\GoogleMapBundle\Model\Services\Geocoding\\Provider"
-        # api key, deafult: no key
-        api_key: ~
-        # locale, default: no locale
-        locale: en
-      # adapter class
-      adapter: "Geocoder\HttpAdapter\BuzzHttpAdapter"
-      
-# HWI OAuth
-#hwi_oauth:
-#    firewall_name: secured_area
-#    
-#    resource_owners:
-#        facebook:
-#            type: facebook
-#            client_id: 173494226064106
-#            client_secret: 41fbd98aa2efaeb12b2602149710ca86
-#            scope: ""
-#        google:
-#            type: google
-#            client_id: 986620454264.apps.googleusercontent.com
-#            client_secret: 2D_1VRUM65dAvIZfgrjsB9Ha
-#            scope: "https://www.googleapis.com/auth/plus.me"
-#        linkedin:
-#            type: linkedin
-#            client_id: wq7ouwedcs6f
-#            client_secret: E313GhN9FrgksrAT
-#            scope: ""
-#        github:
-#            type: github
-#            client_id: 
-#            client_secret:
-#            scope: ""
-#        foursquare:
-#            type: foursquare
-#            client_id: ZWMV20TQ5ASWTHXOMPVET54TNFMMGQ4WGCEYTSEZWP2QXQFN
-#            client_secret: LHY4IZQGXBF0GLPMR2L21V3LDOETXYLWLP4CMB0H5ITDKL4D
-#            scope: ""
-    fosub:
-        username_iterations: 30
-        properties:
-#            github: githubId
-            google: googleId
-            facebook: facebookId
-            foursquare: foursquareId
-            linkedin: linkedinId
-    connect: ~
-    http_client:
-        timeout:  5
-        verify_peer: true
-        ignore_errors: true
-        max_redirects: 5
