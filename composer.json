@@ -30,7 +30,9 @@
         "egeloen/google-map-bundle":                              "1.0",
         "oh/google-map-form-type-bundle":                         "dev-master",
         
-        "ner0tic/landmarx":                                       "*"
+        "ner0tic/landmarx":                                       "*",
+        
+        "friendsofsymfony/user-bundle":                           "*"
     },
     "require-dev": {
         "elao/web-profiler-extra-bundle":                         "dev-master"

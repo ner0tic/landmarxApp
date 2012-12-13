@@ -86,3 +86,9 @@ jms_security_extra:
     method_access_control: { }
 jms_aop:
     cache_dir: %kernel.cache_dir%/jms_aop
+    
+# FOS
+fos_user:
+    db_driver: mongodb # couchdb, propel, orm
+    firewall_name: main
+    user_class: Landmarx\UserBundle\Document\User
