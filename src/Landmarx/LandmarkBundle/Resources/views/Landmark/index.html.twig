@@ -1,1 +1,9 @@
-Hello {{ name }}!
+{% extends '::base.html.twig' %}
+
+{% block content %}
+  <ul>
+  {% for landmark in landmarks %}
+      <li>{{ landmark | title }}</li>
+  {% endfor %}
+  </ul>
+{% endblock %}
