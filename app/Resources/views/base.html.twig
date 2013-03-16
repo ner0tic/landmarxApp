@@ -22,30 +22,30 @@
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
     <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
 <!-- CSS : implied media="all" -->
-    {% stylesheets 
-        '@LandmarxUserBundle/Resources/public/css/base/reset.css' 
-        '@LandmarxUserBundle/Resources/public/css/base/landmarx.css' %}
-      <link rel="stylesheet" href="{{ asset_url }}" />
-    {% endstylesheets %}
-    {% javascripts '@LandmarxUserBundle/Resources/public/js/base/*' %}
-      
-      <script>
-        function goLogIn(){
-          window.location.href = "{{ path('_security_check') }}";
-        }
-        function onFbInit() {
-          if (typeof(FB) != 'undefined' && FB != null ) {
-            FB.Event.subscribe('auth.statusChange', function(response) {
-              if (response.session || response.authResponse) {
-                setTimeout(goLogIn, 500);
-              } else {
-                window.location.href = "{{ path('_security_logout') }}";
-              }
-            });
+    {% block stylesheets %}
+        <link rel="stylesheet" href=" {{ asset('/bundles/landmarxuser/css/base/reset.css') }}" /> 
+        <link rel="stylesheet" href="{{ asset('/bundles/landmarxuser/css/base/landmarx.css') }}" />
+    {% endblock %}
+    {% block javascripts %}
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+        <script type="text/javascript" src="{{ asset('/bundles/landmarxuser/js/base/landmarx.js') }}"></script>     
+        <script type="text/javascript">
+          function goLogIn(){
+            window.location.href = "{{ path('_security_check') }}"
           }
-        }
-      </script>
-    {% endjavascripts %}     
+          function onFbInit() {
+            if (typeof(FB) != 'undefined' && FB != null ) {
+              FB.Event.subscribe('auth.statusChange', function(response) {
+                if (response.session || response.authResponse) {
+                  setTimeout(goLogIn, 500);
+                } else {
+                  window.location.href = "{{ path('_security_logout') }}";
+                }
+              });
+            }
+          }
+        </script>
+    {% endblock %}     
   </head>
   <body>
     <header>
@@ -53,7 +53,7 @@
       <div class="wrapper">
         <div id="logo">
         {% block logo %}
-          <a href="{{ path('homepage') }}"><img src="{{ asset('bundles/landmarxlandmark/images/logo.png') }}" alt="Landmarx" /></a>
+          <a href="{{ path('homepage') }}"><img src="{{ asset('bundles/landmarxuser/img/logo.png') }}" alt="Landmarx" /></a>
         {% endblock %}  
         </div>
         <nav>

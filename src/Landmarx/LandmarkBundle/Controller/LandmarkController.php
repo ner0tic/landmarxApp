@@ -18,15 +18,20 @@ class LandmarkController extends Controller
     {
         // get geo location of user
         // -- if logged in maybe store it in session to get faster?
+        $current = array(
+            'lat' => 43.754419,
+            'lng' => -70.409296
+        );
       
-        $landmarks = $this->get( 'doctrine_mongodb' )
+        $landmarks = $this->get( 'doctrine' )
                           ->getRepository( 'LandmarxLandmarkBundle:Landmark' );
         // delimite with a radius of the users location here
+        
         if ( !$landmarks ) {
           throw $this->createNotFoundException( 'No landmarks found.' );
         }
         
-        return $this->render( 'LandmarxLandmarkBundle:Landmark:index.html.twig', array('landmarks' => $landmarks ) );
+        return $this->render( 'LandmarxLandmarkBundle:Landmark:index.html.twig', array('landmarks' => $landmarks, 'current' => $current ) );
     }
     
     /**

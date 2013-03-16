@@ -8,6 +8,12 @@ framework:
 web_profiler:
     toolbar: true
     intercept_redirects: false
+    
+web_profiler_extra:
+    routing:    true
+    container:  true
+    assetic:    true
+    twig:       true    
 
 monolog:
     handlers:
@@ -21,6 +27,6 @@ monolog:
 
 assetic:
     use_controller: true
-
-#swiftmailer:
-#    delivery_address: me@example.com
+    
+jms_debugging:
+    auto_help: true
