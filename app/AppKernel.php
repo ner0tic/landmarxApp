@@ -25,6 +25,7 @@ class AppKernel extends Kernel
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
                        
             new Landmarx\LandmarkBundle\LandmarxLandmarkBundle(),
+            new Landmarx\CollectionBundle\LandmarxCollectionBundle(),
             new Landmarx\UserBundle\LandmarxUserBundle(),
             
             new FOS\UserBundle\FOSUserBundle(),
@@ -36,7 +37,7 @@ class AppKernel extends Kernel
             new Braincrafted\BootstrapBundle\BraincraftedBootstrapBundle(),
             
             new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
-            new Knp\Bundle\MenuBundle\KnpMenuBundle()
+            new Knp\Bundle\MenuBundle\KnpMenuBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

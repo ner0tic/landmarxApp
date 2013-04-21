@@ -24,11 +24,14 @@
 <!-- CSS : implied media="all" -->
     {% block stylesheets %}
         <link rel="stylesheet" href=" {{ asset('/bundles/landmarxuser/css/base/reset.css') }}" /> 
+        <link rel="stylesheet" href=" {{ asset('css/bootstrap.css') }} " />
         <link rel="stylesheet" href="{{ asset('/bundles/landmarxuser/css/base/landmarx.css') }}" />
     {% endblock %}
     {% block javascripts %}
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+        <link href='http://fonts.googleapis.com/css?family=ABeeZee|Simonetta:400,900|Skranji:400,700|Exo:400,600,800|Kavoon' rel='stylesheet' type='text/css'>
         <script type="text/javascript" src="{{ asset('/bundles/landmarxuser/js/base/landmarx.js') }}"></script>     
+        <script type="text/javascript" stc=" {{ asset( 'js/bootstrap.js' ) }}"></script>
         <script type="text/javascript">
           function goLogIn(){
             window.location.href = "{{ path('_security_check') }}"
@@ -53,12 +56,12 @@
       <div class="wrapper">
         <div id="logo">
         {% block logo %}
-          <a href="{{ path('homepage') }}"><img src="{{ asset('bundles/landmarxuser/img/logo.png') }}" alt="Landmarx" /></a>
+          <a href="{{ path('homepage') }}"><img src="{{ asset('bundles/landmarxuser/img/logo.png') }}" alt="Landmarx" width="200px" /></a>
         {% endblock %}  
         </div>
         <nav>
         {% block nav %}
-          {{ knp_menu_render('main') }}
+          {{ knp_menu_render('main', { 'depth': 2 } ) }}
         {% endblock %}
         </nav>
       </div>
@@ -66,6 +69,7 @@
     </header>
     <section id="content" class="wrapper">
     {% block content %}{% endblock %}
+        <div class="modal" id="auth-modal" tabindex="-1" role="dialog" aria-hidden="true"></div>
     </section>
     <footer>
     {% block footer %}      

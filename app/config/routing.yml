@@ -1,6 +1,27 @@
 homepage:
     pattern: /
     defaults: { _controller: LandmarxLandmarkBundle:Landmark:index }
+################################################################################
+## Authentication / Authorization ##############################################
+################################################################################
+fos_user_security:
+    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+fos_user_register:
+    resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
+    prefix: /register
+fos_user_resetting:
+    resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
+    prefix: /resetting
+fos_user_change_password:
+    resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
+    prefix: /profile    
+_security_check:
+    pattern: /signin/check
+_security_logout:
+    pattern: /signout    
+################################################################################
+## Landmarks ###################################################################
+################################################################################
 landmarks:
     pattern: /
     defaults: { _controller: LandmarxLandmarkBundle:Landmark:index }
@@ -9,6 +30,9 @@ landmark_show:
     defaults: { _controller: LandmarxLandmarkBundle:Landmark:show }
     requirements:
         slug: "[\w-]+"
+landmark_new:
+    pattern: /landmarks/add
+    defaults: { _controller: Landmarx:LandmarkBundle:Landmark:new }
 landmark_edit:
     pattern: /landmarks/{slug}/edit
     defaults: { _controller: LandmarxLandmarkBundle:Landmark:edit }
@@ -34,20 +58,99 @@ landmarks_by_user:
     defaults: { _controller: LandmarxUserBundle:User:landmarks }
     requirements:
         slug: "[\w-]+"
-  
-fos_user_security:
-    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
-fos_user_register:
-    resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
-    prefix: /register
-fos_user_resetting:
-    resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
-    prefix: /resetting
-fos_user_change_password:
-    resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
-    prefix: /profile
-    
-_security_check:
-    pattern: /signin/check
-_security_logout:
-    pattern: /signout
+landmark_search:
+    pattern: /landmarks/search
+    defaults: { _controller: LandmarxLandmarkBundle:Landmark:index }
+################################################################################
+## Landmark Kind ###############################################################
+################################################################################
+landmark_kinds:
+    pattern: /
+    defaults: { _controller: LandmarxLandmarkBundle:LandmarkKind:index }
+landmark_kind_show:
+    pattern: /kinds/{slug}
+    defaults: { _controller: LandmarxLandmarkBundle:LandmarkKind:show }
+    requirements:
+        slug: "[\w-]+"
+landmark_kind_new:
+    pattern: /kinds/add
+    defaults: { _controller: Landmarx:LandmarkBundle:LandmarkKind:new }
+landmark_kind_edit:
+    pattern: /kinds/{slug}/edit
+    defaults: { _controller: LandmarxLandmarkBundle:LandmarkKind:edit }
+    requirements:
+        slug: "[\w-]+"
+landmark_kind_remove:
+    pattern: /kinds/{slug}/remove
+    defaults: { _controller: LandmarxLandmarkBundle:LandmarkKind:remove }
+    requirements:
+        slug: "[\w-]+"  
+landmark_kind_remove_confirmed:
+    pattern: /kinds/{slug}/remove/confirmed
+    defaults: { _controller: LandmarxLandmarkBundle:LandmarkKind:removeConfirm }
+    requirements:
+        slug: "[\w-]+"     
+################################################################################
+## Landmark Categories #########################################################
+################################################################################
+landmark_categories:
+    pattern: /
+    defaults: { _controller: LandmarxLandmarkBundle:LandmarkCategory:index }
+landmark_category_show:
+    pattern: /categories/{slug}
+    defaults: { _controller: LandmarxLandmarkBundle:LandmarkCategory:show }
+    requirements:
+        slug: "[\w-]+"
+landmark_category_new:
+    pattern: /categories/add
+    defaults: { _controller: Landmarx:LandmarkBundle:LandmarkCategory:new }
+landmark_category_edit:
+    pattern: /categories/{slug}/edit
+    defaults: { _controller: LandmarxLandmarkBundle:LandmarkCategory:edit }
+    requirements:
+        slug: "[\w-]+"
+landmark_category_remove:
+    pattern: /categories/{slug}/remove
+    defaults: { _controller: LandmarxLandmarkBundle:LandmarkCategory:remove }
+    requirements:
+        slug: "[\w-]+"  
+landmark_category_remove_confirmed:
+    pattern: /categories/{slug}/remove/confirmed
+    defaults: { _controller: LandmarxLandmarkBundle:LandmarkCategory:removeConfirm }
+    requirements:
+        slug: "[\w-]+"           
+################################################################################
+## Landmark Collections ########################################################
+################################################################################
+landmark_collections:
+    pattern: /
+    defaults: { _controller: LandmarxCollectionBundle:LandmarkCollection:index }
+landmark_collection_show:
+    pattern: /collections/{slug}
+    defaults: { _controller: LandmarxCollectionBundle:LandmarkCollection:show }
+    requirements:
+        slug: "[\w-]+"
+landmark_collection_new:
+    pattern: /collections/add
+    defaults: { _controller: Landmarx:LandmarkBundle:LandmarkCollection:new }
+landmark_collection_edit:
+    pattern: /collections/{slug}/edit
+    defaults: { _controller: LandmarxCollectionBundle:LandmarkCollection:edit }
+    requirements:
+        slug: "[\w-]+"
+landmark_collection_remove:
+    pattern: /collections/{slug}/remove
+    defaults: { _controller: LandmarxCollectionBundle:LandmarkCollection:remove }
+    requirements:
+        slug: "[\w-]+"  
+landmark_collection_remove_confirmed:
+    pattern: /collections/{slug}/remove/confirmed
+    defaults: { _controller: LandmarxCollectionBundle:LandmarkCollection:removeConfirm }
+    requirements:
+        slug: "[\w-]+" 
+landmark_collections_search:
+    pattern: /collections/search
+    defaults: { _controller: LandmarxCollectionBundle:LandmarkCollection:index }        
+my_collections:
+    pattern: /my-collections
+    defaults: { _controller: LandmarxCollectionBundle:LandmarkCollection:my }    
