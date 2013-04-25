@@ -44,7 +44,7 @@ class MenuBuilder implements ContainerAwareInterface
         // Landmarks :: search /////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////
         $menu[ 'landmarks' ]->addChild(
-                'find A landmark',
+                'find a landmark',
                 array(
                     'route'   =>  'landmark_search'
         ) );
@@ -68,7 +68,7 @@ class MenuBuilder implements ContainerAwareInterface
         // Landmarks :: Categories :: add //////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////
         $menu[ 'landmarks' ][ 'landmark categories' ]->addChild(
-                'add A category',
+                'add a category',
                 array(
                     'route'   =>  'landmark_category_new'
         ) );

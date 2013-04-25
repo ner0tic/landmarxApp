@@ -34,7 +34,7 @@ class AppKernel extends Kernel
             new Ivory\GoogleMapBundle\IvoryGoogleMapBundle(),
             new Vich\UploaderBundle\VichUploaderBundle(),
             
-            new Braincrafted\BootstrapBundle\BraincraftedBootstrapBundle(),
+            new Bc\Bundle\BootstrapBundle\BcBootstrapBundle(),
             
             new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),

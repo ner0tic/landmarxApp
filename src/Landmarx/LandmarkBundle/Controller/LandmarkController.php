@@ -2,10 +2,16 @@
 
 namespace Landmarx\LandmarkBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller,
+    Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
+    Sensio\Bundle\FrameworkExtraBundle\Configuration\Template,
+    Symfony\Component\HttpFoundation\Request,
+        
+    Geocoder\Geocoder,
+    Geocoder\HttpAdapter\CurlHttpAdapter,
+    Geocoder\Provider\ChainProvider,
+    Geocoder\Provider\GoogleMapsProvider,
+    Geocoder\Provider\FreeGeoIpProvider;
 
 class LandmarkController extends Controller
 {
@@ -17,12 +23,24 @@ class LandmarkController extends Controller
     public function indexAction()
     {
         // get geo location of user
-        // -- if logged in maybe store it in session to get faster?
-        $current = array(
-            'lat' => 43.754419,
-            'lng' => -70.409296
-        );
-      
+        $geocoder = new Geocoder();
+        $geocoder->registerProvider( new FreeGeoIpProvider( new CurlHttpAdapter() ) );
+        
+        Request::trustProxyData();
+        
+        $ip = $this->getRequest()->getClientIp();
+        
+        if( in_array( $ip, array( '127.0.0.1', '10.10.0.1' ) ) )
+            $ip = '74.7.133.89';
+                
+        $result = $geocoder->geocode( $ip );
+        
+        $current = $result->getCoordinates();
+        if( !is_array( $current ) )
+        {
+            $current = array( 43.754419, -70.409296 );
+        }
+        
         $landmarks = $this->get( 'doctrine' )
                           ->getRepository( 'LandmarxLandmarkBundle:Landmark' );
         // delimite with a radius of the users location here

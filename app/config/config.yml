@@ -25,7 +25,7 @@ twig:
     strict_variables: "%kernel.debug%"
     form:
         resources:
-            - "BraincraftedBootstrapBundle:Form:form_div_layout.html.twig"
+#            - "BraincraftedBootstrapBundle:Form:form_div_layout.html.twig"
             - 'OhGoogleMapFormTypeBundle:Form:fields.html.twig'    
 
 ################################################################################
@@ -35,6 +35,10 @@ assetic:
     debug:          "%kernel.debug%"
     use_controller: false
     filters:
+        less:
+            node:       /usr/local/bin/node
+            node_paths: [/usr/local/lib/node_modules]
+            apply_to:   "\.less$"      
         cssrewrite: ~
 ################################################################################
 ## Doctrine Configuration
@@ -199,3 +203,10 @@ knp_menu:
 #                name: File
 #                options:
 #                    cache_dir: %kernel.root_dir%/cache/%kernel.environment%            
+
+################################################################################
+## Twitter Bootstrap
+################################################################################
+bc_bootstrap:
+    assets_dir:  %kernel.root_dir%/../vendor/twitter/bootstrap
+#    jquery_path: %kernel.root_dir%/../vendor/jquery/jquery/jquery-1.9.1.js

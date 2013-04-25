@@ -49,7 +49,9 @@ class Landmark
     /**
       * @ORM\OneToMany(targetEntity="Landmarx\LandmarkBundle\Entity\LandmarkCategory", mappedBy="landmark")
       */
-    protected $categories;    
+    protected $categories;  
+    
+    protected $attributes;
     
     /**
      * @ORM\Column(type="boolean")     
@@ -89,6 +91,7 @@ class Landmark
     public function __construct() 
     {
         $this->categories = new ArrayCollection();
+        $this->attributes = new ArrayCollection();
     }
 
     /**
