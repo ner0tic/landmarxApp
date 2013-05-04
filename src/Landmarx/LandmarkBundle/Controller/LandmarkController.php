@@ -11,7 +11,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller,
     Geocoder\HttpAdapter\CurlHttpAdapter,
     Geocoder\Provider\ChainProvider,
     Geocoder\Provider\GoogleMapsProvider,
-    Geocoder\Provider\FreeGeoIpProvider;
+    Geocoder\Provider\FreeGeoIpProvider,
+        
+    GeoPoint\Api\GeoPointApi as GP;
 
 class LandmarkController extends Controller
 {
@@ -23,20 +25,22 @@ class LandmarkController extends Controller
     public function indexAction()
     {
         // get geo location of user
-        $geocoder = new Geocoder();
-        $geocoder->registerProvider( new FreeGeoIpProvider( new CurlHttpAdapter() ) );
+        $gp = new GP();
+        $gp->getClient()
+           ->setApiKey( '120.1.517bcf11e4b0a3353cbcc9a7.3LO8lVZsV' )
+           ->setSecret( 'ilO81G2p' );
         
-        Request::trustProxyData();
-        
-        $ip = $this->getRequest()->getClientIp();
+        $ip = $_SERVER[ 'REMOTE_ADDR' ];
         
         if( in_array( $ip, array( '127.0.0.1', '10.10.0.1' ) ) )
             $ip = '74.7.133.89';
                 
-        $result = $geocoder->geocode( $ip );
+        $ipinfo = $gp->get( $ip );
         
-        $current = $result->getCoordinates();
-        if( !is_array( $current ) )
+        var_dump($ipinfo); die('---');
+        
+        $current = array( $ipinfo->Location->latitude, $ipinfo->Location->longitude );
+        if( !is_array( $current ) || count( $current ) != 2 )
         {
             $current = array( 43.754419, -70.409296 );
         }

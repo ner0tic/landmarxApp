@@ -55,13 +55,17 @@
                 },
                 "target-dir": "Millwright/ConfigurationBundle"
             }
-        }   
+        },
+        {
+            "type":"vcs",
+            "url":"/media/Projects/php/php-geopoint-api"
+        }
     ],
     "config": {
         "process-timeout": 20000
     },
     "require": {
-        "php":                                                      ">=5.4",
+        "php":                                                      ">=5.3",
         
         "symfony/symfony":                                          "2.2.1",
         "symfony/assetic-bundle":                                   "2.1.*",
@@ -109,9 +113,9 @@
         "braincrafted/bootstrap-bundle":                            "1.4.2",
         "twitter/bootstrap":                                        "2.3.*",
               
-        "ner0tic/php-api-core":                                     "*",
-        "ner0tic/github-api":                                       "*",
-        "ner0tic/foursquare-api":                                "*",        
+        "ner0tic/php-api-core":                                     ">=2.0.0",
+        "ner0tic/foursquare-api":                                   "*",        
+        "ner0tic/php-geopoint-api":                                 "dev-master",
         
         "vich/uploader-bundle":                                     "dev-master",
         
