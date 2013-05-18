@@ -54,7 +54,12 @@ class MenuBuilder implements ContainerAwareInterface
         $menu[ 'landmarks' ]->addChild(
                 'add a landmark',
                 array(
-                    'route'   =>  'landmark_new'
+                    'route'         =>  'landmark_new'
+        ) );
+        $menu[ 'landmarks' ][ 'add a landmark' ]->setLinkAttributes(
+                array(
+                    'data-target'   =>  '#auth-modal',
+                    'data-toggle'   =>  'modal'
         ) );
         ////////////////////////////////////////////////////////////////////////
         // Landmarks :: Categories /////////////////////////////////////////////

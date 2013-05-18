@@ -9,7 +9,8 @@
                 div: '#map',
                 lat: {{ current[0] }},
                 lng: {{ current[1] }},
-                MapTypeId: google.maps.MapTypeId.TERRAIN
+                MapTypeId: google.maps.MapTypeId.TERRAIN,
+                disableDefaultUI: true,
             });
         } );
     </script>

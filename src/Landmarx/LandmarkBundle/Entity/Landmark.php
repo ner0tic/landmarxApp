@@ -4,7 +4,8 @@ namespace Landmarx\LandmarkBundle\Entity;
 use Doctrine\ORM\Mapping as ORM,
     Gedmo\Mapping\Annotation as Gedmo,
     Doctrine\Common\Collections\ArrayCollection,
-    Symfony\Component\Validator\Constraints as Assert;
+    Symfony\Component\Validator\Constraints as Assert,
+    Oh\GoogleMapFormTypeBundle\Validator\Constraints as OhAssert;
 
 /**
 
@@ -57,6 +58,12 @@ class Landmark
      * @ORM\Column(type="boolean")     
      */
     protected $public;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Landmark", inversedBy="landmark")
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
+     */     
+    protected $parent;
     
     /**
      * @ORM\ManyToOne(targetEntity="Landmarx\UserBundle\Entity\User", inversedBy="landmark")
@@ -213,6 +220,28 @@ class Landmark
     {
         return $this->public;
     }
+    
+   /**
+     * Set parent
+     *
+     * @param Landmarx\LandmarkBundle\Entity\Landmark $parent
+     * @return Landmark
+     */
+    public function setParent(Landmarx\LandmarkBundle\Entity\Landmark $parent = null)
+    {
+        $this->parent = $parent;
+        return $this;
+    }
+
+    /**
+     * Get parent
+     *
+     * @return Landmarx\LandmarkBundle\Entity\Landmark
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }    
 
     /**
      * Set slug
@@ -303,25 +332,25 @@ class Landmark
     }
 
     /**
-     * Add categories
+     * Add category
      *
-     * @param Landmarx\LandmarkBundle\Entity\LandmarkCategory $categories
+     * @param Landmarx\LandmarkBundle\Entity\LandmarkCategory $category
      * @return Landmark
      */
-    public function addCategorie(\Landmarx\LandmarkBundle\Entity\LandmarkCategory $categories)
+    public function addCategory(\Landmarx\LandmarkBundle\Entity\LandmarkCategory $category)
     {
-        $this->categories[] = $categories;
+        $this->categories[] = $category;
         return $this;
     }
 
     /**
-     * Remove categories
+     * Remove category
      *
-     * @param Landmarx\LandmarkBundle\Entity\LandmarkCategory $categories
+     * @param Landmarx\LandmarkBundle\Entity\LandmarkCategory $category
      */
-    public function removeCategorie(\Landmarx\LandmarkBundle\Entity\LandmarkCategory $categories)
+    public function removeCategory(\Landmarx\LandmarkBundle\Entity\LandmarkCategory $category)
     {
-        $this->categories->removeElement($categories);
+        $this->categories->removeElement($category);
     }
 
     /**
@@ -355,4 +384,21 @@ class Landmark
     {
         return $this->user;
     }
+    
+    public function setLatLng($latlng)
+    {
+        $this->setLatitude($latlng['lat']);
+        $this->setLongitude($latlng['lng']);
+        return $this;
+    }
+
+    /**
+     * @Assert\NotBlank()
+     * @OhAssert\LatLng()
+     */
+    public function getLatLng()
+    {
+        return array('lat'=>$this->getLatitude(),'lng'=>$this->getLongitude());
+    }
+
 }

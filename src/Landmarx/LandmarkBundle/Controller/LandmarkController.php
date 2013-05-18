@@ -6,14 +6,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller,
     Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
     Sensio\Bundle\FrameworkExtraBundle\Configuration\Template,
     Symfony\Component\HttpFoundation\Request,
-        
     Geocoder\Geocoder,
     Geocoder\HttpAdapter\CurlHttpAdapter,
     Geocoder\Provider\ChainProvider,
     Geocoder\Provider\GoogleMapsProvider,
     Geocoder\Provider\FreeGeoIpProvider,
-        
-    GeoPoint\Api\GeoPointApi as GP;
+    GeoPoint\Api\GeoPointApi as GP,
+    Landmarx\LandmarkBundle\Entity\Landmark,
+    Landmarx\LandmarkBundle\Form\Type\LandmarkType;
 
 class LandmarkController extends Controller
 {
@@ -37,9 +37,8 @@ class LandmarkController extends Controller
                 
         $ipinfo = $gp->get( $ip );
         
-        var_dump($ipinfo); die('---');
-        
-        $current = array( $ipinfo->Location->latitude, $ipinfo->Location->longitude );
+        //$current = array( $ipinfo[ 'ipinfo' ][ 'Location' ][ 'latitude' ], $ipinfo[ 'ipinfo' ][ 'Location' ][ 'longitude' ] );
+        $current = '';
         if( !is_array( $current ) || count( $current ) != 2 )
         {
             $current = array( 43.754419, -70.409296 );
@@ -64,7 +63,7 @@ class LandmarkController extends Controller
      */
     public function showAction( $slug )
     {
-      $landmark = $this->get( 'doctrine_mongodb' )
+      $landmark = $this->getDoctrine()
                        ->getRepository( 'LandmarxLandmarkBundle:Landmark' )
                        ->findBySlug( $slug );
       
@@ -79,27 +78,25 @@ class LandmarkController extends Controller
     public function newAction( Request $request ) 
     {
         $landmark = new Landmark();
-        $form = $this->createFormBuilder( $landmark )
-              ->add('name')
-              ->add('description')
-              ->add('categories')
-              ->add('parent')
-              ->add('latlng', new GoogleMapType())
-              ->getForm();
+        $form = $this->createForm( new LandmarkType(), $landmark );
 
         if ( $request->getMethod() == 'POST' ) 
         {
             $form->bindRequest( $this->getRequest() );
             if( $form->isValid() ) 
             {
-                $em = $this->get('doctrine_mongodb')->getManager();
-                $em->persist( $landmark);
+                $em = $this->getDoctrine()->getEntityManager();
+                $em->persist( $landmark );
                 $em->flush();
 
-                return $this->redirect( $this->generateUrl('landmarks') );
+              return $this->render( 'LandmarxLandmarkBundle:Landmark:show.html.twig', array(
+                  'landmark_slug' => $landmark->getSlug()
+              ));
             }
         }
-        
-        return $this->render( 'LandmarxLandmarkBundle:Landmark:new.html.twig', array( 'form' => $form->createView() ) );
+
+        return $this->render( 'LandmarxLandmarkBundle:Landmark:new.html.twig', array(
+            'form' => $form->createView()
+        ));
     }
 }

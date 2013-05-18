@@ -8,8 +8,8 @@ use Doctrine\ORM\Mapping as ORM,
 
 /**
 
-  @ORM\Entity(repositoryClass="Landmarx\LandmarkBundle\Repository\LandmarkRepository")
- * @ORM\Table(name="landmark")
+  @ORM\Entity(repositoryClass="Landmarx\LandmarkBundle\Repository\LandmarkKindRepository")
+ * @ORM\Table(name="landmark_kind")
  */
 class LandmarkKind
 {

@@ -25,14 +25,14 @@ _security_logout:
 landmarks:
     pattern: /
     defaults: { _controller: LandmarxLandmarkBundle:Landmark:index }
+landmark_new:
+    pattern: /landmarks/add
+    defaults: { _controller: LandmarxLandmarkBundle:Landmark:new }
 landmark_show:
     pattern: /landmarks/{slug}
     defaults: { _controller: LandmarxLandmarkBundle:Landmark:show }
     requirements:
         slug: "[\w-]+"
-landmark_new:
-    pattern: /landmarks/add
-    defaults: { _controller: Landmarx:LandmarkBundle:Landmark:new }
 landmark_edit:
     pattern: /landmarks/{slug}/edit
     defaults: { _controller: LandmarxLandmarkBundle:Landmark:edit }
@@ -65,16 +65,16 @@ landmark_search:
 ## Landmark Kind ###############################################################
 ################################################################################
 landmark_kinds:
-    pattern: /
+    pattern: /kinds
     defaults: { _controller: LandmarxLandmarkBundle:LandmarkKind:index }
+landmark_kind_new:
+    pattern: /kinds/add
+    defaults: { _controller: LandmarxLandmarkBundle:LandmarkKind:new }
 landmark_kind_show:
     pattern: /kinds/{slug}
     defaults: { _controller: LandmarxLandmarkBundle:LandmarkKind:show }
     requirements:
         slug: "[\w-]+"
-landmark_kind_new:
-    pattern: /kinds/add
-    defaults: { _controller: Landmarx:LandmarkBundle:LandmarkKind:new }
 landmark_kind_edit:
     pattern: /kinds/{slug}/edit
     defaults: { _controller: LandmarxLandmarkBundle:LandmarkKind:edit }
@@ -103,7 +103,7 @@ landmark_category_show:
         slug: "[\w-]+"
 landmark_category_new:
     pattern: /categories/add
-    defaults: { _controller: Landmarx:LandmarkBundle:LandmarkCategory:new }
+    defaults: { _controller: LandmarxLandmarkBundle:LandmarkCategory:new }
 landmark_category_edit:
     pattern: /categories/{slug}/edit
     defaults: { _controller: LandmarxLandmarkBundle:LandmarkCategory:edit }
@@ -125,14 +125,14 @@ landmark_category_remove_confirmed:
 landmark_collections:
     pattern: /
     defaults: { _controller: LandmarxCollectionBundle:LandmarkCollection:index }
+landmark_collection_new:
+    pattern: /collections/add
+    defaults: { _controller: LandmarxLandmarkBundle:LandmarkCollection:new }
 landmark_collection_show:
     pattern: /collections/{slug}
     defaults: { _controller: LandmarxCollectionBundle:LandmarkCollection:show }
     requirements:
         slug: "[\w-]+"
-landmark_collection_new:
-    pattern: /collections/add
-    defaults: { _controller: Landmarx:LandmarkBundle:LandmarkCollection:new }
 landmark_collection_edit:
     pattern: /collections/{slug}/edit
     defaults: { _controller: LandmarxCollectionBundle:LandmarkCollection:edit }

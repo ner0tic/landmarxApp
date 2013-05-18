@@ -69,8 +69,6 @@
         
         "symfony/symfony":                                          "2.2.1",
         "symfony/assetic-bundle":                                   "2.1.*",
-        "symfony/swiftmailer-bundle":                               "2.2.*",
-        "symfony/monolog-bundle":                                   "2.2.*",
         "sensio/distribution-bundle":                               "2.2.*",
         "sensio/framework-extra-bundle":                            "2.2.*",
         "sensio/generator-bundle":                                  "2.2.*",
@@ -91,10 +89,8 @@
         "jms/di-extra-bundle":                                      "1.3.*",
 
         "symfony/security-bundle":                                  "2.2.*",
-        "symfony/swiftmailer-bundle":                               "*",
+        "symfony/swiftmailer-bundle":                               "v2.2.1",
         "symfony/monolog-bundle":                                   "2.2.*",
-
-        "sensio/framework-extra-bundle":                            "2.2.*",
 
         "gedmo/doctrine-extensions":                                "2.3.x-dev",
         "stof/doctrine-extensions-bundle":                          "dev-master",
@@ -113,9 +109,9 @@
         "braincrafted/bootstrap-bundle":                            "1.4.2",
         "twitter/bootstrap":                                        "2.3.*",
               
-        "ner0tic/php-api-core":                                     ">=2.0.0",
-        "ner0tic/foursquare-api":                                   "*",        
-        "ner0tic/php-geopoint-api":                                 "dev-master",
+        "ner0tic/php-api-core":                                     "2.0.*",
+        "ner0tic/php-geopoint-api":                                 "*",
+        "ner0tic/foursquare-api":                                   "2.0.*",
         
         "vich/uploader-bundle":                                     "dev-master",
         
