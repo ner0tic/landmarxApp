@@ -8,14 +8,18 @@ framework:
     #esi:             ~
     translator:      ~
     secret:          "%secret%"
-    router: { resource: "%kernel.root_dir%/config/routing.yml" }
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: %kernel.debug%
     form:            true
     csrf_protection: true
     validation:      { enable_annotations: true }
-    templating:      { engines: ['twig'] } 
+    templating:      { engines: ['twig'] }
 #    assets_version: SomeVersionScheme
-    default_locale:  "%locale%"    
+    default_locale:  "%locale%"
+    trusted_proxies: ~
     session:         ~
+    fragments:       ~
 
 ################################################################################
 ## Twig Configuration
@@ -26,44 +30,82 @@ twig:
     form:
         resources:
 #            - "BraincraftedBootstrapBundle:Form:form_div_layout.html.twig"
-            - 'OhGoogleMapFormTypeBundle:Form:fields.html.twig'    
+            - 'OhGoogleMapFormTypeBundle:Form:fields.html.twig'
 
 ################################################################################
 ## Assetic Configuration
 ################################################################################
 assetic:
-    debug:          "%kernel.debug%"
+    debug:          %kernel.debug%
     use_controller: false
+    bundles:        [ ]
+    #java: /usr/bin/java
     filters:
-        less:
-            node:       /usr/local/bin/node
-            node_paths: [/usr/local/lib/node_modules]
-            apply_to:   "\.less$"      
         cssrewrite: ~
+        less:
+            node: /usr/bin/nodejs
+            node_paths: [ /usr/local/lib/node_modules/ ]
+            apply_to:   "\.less$"
+    assets:
+        bootstrap_css:
+            inputs:
+                - %kernel.root_dir%/../src/Landmarx/UserBundle/Resources/public/less/build.less
+            filters:
+                - less
+                - cssrewrite
+            output: css/bootstrap.css
+        bootstrap_js:
+            inputs:
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-transition.js
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-alert.js
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-button.js
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-carousel.js
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-collapse.js
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-dropdown.js
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-modal.js
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-tooltip.js
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-popover.js
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-scrollspy.js
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-tab.js
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-typeahead.js
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-affix.js
+            output: js/bootstrap.js
+        jquery:
+            inputs:
+                - %kernel.root_dir%/../vendor/jquery/jquery/jquery-1.9.1.js
+            output: js/jquery.js
     bundles:        [ 'OhGoogleMapFormTypeBundle' ]
+
 ################################################################################
 ## Doctrine Configuration
 ################################################################################
-doctrine:
-    dbal:
-        driver:   "%database_driver%"
-        host:     "%database_host%"
-        port:     "%database_port%"
-        dbname:   "%database_name%"
-        user:     "%database_user%"
-        password: "%database_password%"
-        charset:  UTF8
-        mapping_types:
-            enum: string
-            set: string
-            varbinary: string
-            tinyblob: text
+doctrine_mongodb:
+    connections:
+        default:
+            server: mongodb://localhost:27017
+            options: {}
+    default_database: %database_name%
+    document_managers:
+        default:
+            auto_mapping: true
+
+#doctrine:
+#    dbal:
+#        driver:   %database_driver%
+#        host:     %database_host%
+#        port:     %database_port%
+#        dbname:   %database_name%
+#        user:     %database_user%
+#        password: %database_password%
+#        charset:  UTF8
+
     orm:
         auto_generate_proxy_classes: %kernel.debug%
         entity_managers:
             default:
                 auto_mapping: true
                 mappings:
+                    FOSUserBundle: ~
                     gedmo_translatable:
                         type: annotation
                         prefix: Gedmo\Translatable\Entity
@@ -95,9 +137,9 @@ doctrine:
 stof_doctrine_extensions:
     default_locale: en_US
     orm:
-        default: 
+        default:
           timestampable: true
-          sluggable: true                        
+          sluggable: true
 
 ################################################################################
 ## Swiftmailer Configuration
@@ -108,7 +150,7 @@ swiftmailer:
     username:  %mailer_user%
     password:  %mailer_password%
 
-################################################################################    
+################################################################################
 ## JMS
 ################################################################################
 jms_security_extra:
@@ -119,21 +161,23 @@ jms_security_extra:
         disable_authenticated: false
         disable_role:          false
         disable_acl:           false
-    method_access_control: { }    
+    method_access_control: { }
 jms_aop:
-    cache_dir: %kernel.cache_dir%/jms_aop  
-    
-################################################################################            
+    cache_dir: %kernel.cache_dir%/jms_aop
+
+################################################################################
 ## FOS
 ################################################################################
 fos_user:
-    db_driver: orm 
+    db_driver: orm
     firewall_name: main
-    user_class: Landmarx\UserBundle\Entity\User            
+    user_class: Landmarx\UserBundle\Entity\User
     registration:
         form:
             type: landmarx_user_registration
-            
+#    service:
+#        user_manager: fos_user_manager
+
 ################################################################################
 ## GMaps
 ################################################################################
@@ -157,13 +201,13 @@ ivory_google_map:
               latitude:   2.6
               longitude:  1.4
               no_wrap:    true
-      type: "roadmap" 
+      type: "roadmap"
       width:  "100%"
       height: "100%"
       map_options:
           disableDefaultUI:       true
           disableDoubleClickZoom: true
-      stylesheet_options: 
+      stylesheet_options:
           position: "absolute"
           top:      "32px"
           left:     "0px"
@@ -175,35 +219,22 @@ ivory_google_map:
         class: "Ivory\GoogleMapBundle\Model\Services\Geocoding\\Provider"
         api_key: ~
         locale: en
-      adapter: "Geocoder\HttpAdapter\BuzzHttpAdapter"    
+      adapter: "Geocoder\HttpAdapter\BuzzHttpAdapter"
 
 ################################################################################
 ## Vich Uploader
 ################################################################################
 vich_uploader:
-    db_driver: orm 
+    db_driver: orm
     twig: true
 
 ################################################################################
 ## KnP
 ################################################################################
 knp_menu:
-    twig: 
-        template: LandmarxUserBundle:Base:menu.html.twig
-    templating: false 
-    default_renderer: twig        
-#knp_zend_cache:
-#    templates:
-#        knp_last_tweets:
-#            frontend:
-#                name: Core
-#                options:
-#                    lifetime: 300
-#                    automatic_serialization: true
-#            backend:
-#                name: File
-#                options:
-#                    cache_dir: %kernel.root_dir%/cache/%kernel.environment%            
+    twig: # false
+        template: LandmarxUserBundle:Menu:layout.html.twig
+    default_renderer: twig
 
 ################################################################################
 ## Twitter Bootstrap
@@ -211,3 +242,9 @@ knp_menu:
 bc_bootstrap:
     assets_dir:  %kernel.root_dir%/../vendor/twitter/bootstrap
 #    jquery_path: %kernel.root_dir%/../vendor/jquery/jquery/jquery-1.9.1.js
+
+###############################################################################
+## PAGERFANTA Configuration
+###############################################################################
+white_october_pagerfanta:
+    default_view: twitter_bootstrap

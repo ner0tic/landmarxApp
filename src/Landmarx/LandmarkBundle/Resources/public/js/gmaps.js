@@ -468,7 +468,7 @@ if(window.google && window.google.maps){
                   if(!me.pixel){
                     me.pixel = map.getProjection().fromLatLngToPoint(me.latLng)
                   }
-                  
+
                   options[name].apply(this, [me]);
                 });
               }
@@ -835,7 +835,7 @@ if(window.google && window.google.maps){
         var latLngBounds = new google.maps.LatLngBounds(
           new google.maps.LatLng(options.bounds[0][0], options.bounds[0][1]),
           new google.maps.LatLng(options.bounds[1][0], options.bounds[1][1])
-        );
+       );
 
         options.bounds = latLngBounds;
 

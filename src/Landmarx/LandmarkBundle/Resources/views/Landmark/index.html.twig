@@ -4,15 +4,15 @@
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
     <script type="text/javascript" src="{{ asset('/bundles/landmarxlandmark/js/gmaps.js') }}"></script>
     <script type="text/javascript">
-        $(document).ready( function() {
-            map = new GMaps( {
+        $(document).ready(function() {
+            map = new GMaps({
                 div: '#map',
                 lat: {{ current[0] }},
                 lng: {{ current[1] }},
                 MapTypeId: google.maps.MapTypeId.TERRAIN,
                 disableDefaultUI: true,
             });
-        } );
+        });
     </script>
 {% endblock %}
 {% block stylesheets %}
@@ -24,7 +24,7 @@
     {% block gmap %}
     <div id="map"></div>
     {% endblock %}
-    {% block info_overlay %}  
+    {% block info_overlay %}
     <div id="info-overlay-wrapper">
         <div class="info-overlay-bg"></div>
         <div id="info-overlay">

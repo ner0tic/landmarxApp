@@ -4,35 +4,35 @@
     <div id="form-container">
         <fieldset>
             <h2>{{ 'add a landmark' | title }}</h2>
-            <form action="{{ path( 'landmark_new' ) }}" method="post" {{ form_enctype( form ) }}>
+            <form action="{{ path('landmark_new') }}" method="post" {{ form_enctype(form) }}>
                 {% block form %}
                 <div id="form-errors" class="hidden">
-                    {{ form_errors( form ) }}
+                    {{ form_errors(form) }}
                 </div>
                 <div class="row-fluid">
                     <div id="left-pane">
                         <div class="control-group slider">
-                            {{ form_row( form.name ) }}
+                            {{ form_row(form.name) }}
                         </div>
                         <div class="control-group slider">
-                            {{ form_row( form.description ) }}
+                            {{ form_row(form.description) }}
                         </div>
                         <div class="control-group slider">
-                            {{ form_row( form.parent ) }}
+                            {{ form_row(form.parent) }}
                         </div>
                         <div class="control-group slider">
-                            {{ form_row( form.kind ) }}
+                            {{ form_row(form.kind) }}
                         </div>
                         <div class="control-group slider">
-                            {{ form_row( form.categories ) }}
+                            {{ form_row(form.categories) }}
                         </div>
                         <div class="control-group slider">
-                            {{ form_row( form.public ) }}
+                            {{ form_row(form.public) }}
                         </div>
                     </div>
                     <div class="right-pane">
                         <div class="control-group">
-                            {{ form_row( form.latlng ) }}
+                            {{ form_row(form.latlng) }}
                         </div>
                         <div class="control-group slider">
                             {{ form_rest(form) }}

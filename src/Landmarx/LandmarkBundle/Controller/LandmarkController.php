@@ -2,23 +2,28 @@
 
 namespace Landmarx\LandmarkBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller,
-    Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
-    Sensio\Bundle\FrameworkExtraBundle\Configuration\Template,
-    Symfony\Component\HttpFoundation\Request,
-    Geocoder\Geocoder,
-    Geocoder\HttpAdapter\CurlHttpAdapter,
-    Geocoder\Provider\ChainProvider,
-    Geocoder\Provider\GoogleMapsProvider,
-    Geocoder\Provider\FreeGeoIpProvider,
-    GeoPoint\Api\GeoPointApi as GP,
-    Landmarx\LandmarkBundle\Entity\Landmark,
-    Landmarx\LandmarkBundle\Form\Type\LandmarkType;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
+use Landmarx\LandmarkBundle\Document\Landmark;
+use Landmarx\LandmarkBundle\Form\Type\LandmarkFormType;
+use Landmarx\LandmarkBundle\Form\Type\LandmarkSearchFormType;
+use Pagerfanta\Pagerfanta;
+use Pagerfanta\Adapter\DoctrineORMAdapter;
+use Pagerfanta\Exception\NotValidCurrentPageException;
+use Pagerfanta\View\TwitterBootstrapView;
+use Geocoder\Geocoder;
+use Geocoder\HttpAdapter\CurlHttpAdapter;
+use Geocoder\Provider\ChainProvider;
+use Geocoder\Provider\GoogleMapsProvider;
+use Geocoder\Provider\FreeGeoIpProvider;
+use GeoPoint\Api\GeoPointApi as GP;
 
 class LandmarkController extends Controller
 {
     /**
-     * 
+     *
      * @return render
      * @throws NotFoundException
      */
@@ -26,77 +31,101 @@ class LandmarkController extends Controller
     {
         // get geo location of user
         $gp = new GP();
+        /**
+         * @todo  temp hardcode the key and secret
+         */
         $gp->getClient()
-           ->setApiKey( '120.1.517bcf11e4b0a3353cbcc9a7.3LO8lVZsV' )
-           ->setSecret( 'ilO81G2p' );
-        
-        $ip = $_SERVER[ 'REMOTE_ADDR' ];
-        
-        if( in_array( $ip, array( '127.0.0.1', '10.10.0.1' ) ) )
+           ->setApiKey('120.1.517bcf11e4b0a3353cbcc9a7.3LO8lVZsV')
+           ->setSecret('ilO81G2p');
+
+        $ip = $_SERVER['REMOTE_ADDR'];
+
+        if (in_array($ip, array('127.0.0.1', '10.10.0.1'))) {
             $ip = '74.7.133.89';
-                
-        $ipinfo = $gp->get( $ip );
-        
-        //$current = array( $ipinfo[ 'ipinfo' ][ 'Location' ][ 'latitude' ], $ipinfo[ 'ipinfo' ][ 'Location' ][ 'longitude' ] );
+        }
+
+        $ipinfo = $gp->get($ip);
+        /**
+        $current = array(
+            $ipinfo[ 'ipinfo' ][ 'Location' ][ 'latitude' ],
+            $ipinfo[ 'ipinfo' ][ 'Location' ][ 'longitude' ]
+        );
+        */
         $current = '';
-        if( !is_array( $current ) || count( $current ) != 2 )
-        {
-            $current = array( 43.754419, -70.409296 );
+        if (!is_array($current) || 2 != count($current)) {
+            $current = array(43.754419, -70.409296);
         }
-        
-        $landmarks = $this->get( 'doctrine' )
-                          ->getRepository( 'LandmarxLandmarkBundle:Landmark' );
+
+        $landmarks = $this->get('doctrine_mongodb')
+                                ->getManager()
+                                ->getRepository('LandmarxLandmarkBundle:Landmark')
+                                ->findAllOrderedByName();
+
         // delimite with a radius of the users location here
-        
-        if ( !$landmarks ) {
-          throw $this->createNotFoundException( 'No landmarks found.' );
+
+        if (!$landmarks) {
+            throw $this->createNotFoundException('No landmarks found.');
         }
-        
-        return $this->render( 'LandmarxLandmarkBundle:Landmark:index.html.twig', array('landmarks' => $landmarks, 'current' => $current ) );
+
+        return $this->render(
+            'LandmarxLandmarkBundle:Landmark:index.html.twig',
+            array(
+                'landmarks' => $landmarks,
+                'current' => $current
+          )
+        );
     }
-    
+
     /**
-     * 
      * @param string $slug
      * @return return
      * @throws NotFoundException
      */
-    public function showAction( $slug )
+    public function showAction($slug)
     {
-      $landmark = $this->getDoctrine()
-                       ->getRepository( 'LandmarxLandmarkBundle:Landmark' )
-                       ->findBySlug( $slug );
-      
-      if( !$landmark )
-      {
-        throw $this->createNotFoundException( 'No landmark found.' );
-      }
-      
-      return $this->render( 'LandmarxLandmarkBundle:Landmark:show.html.twig', array('landmark' => $landmark ) );
-    }
- 
-    public function newAction( Request $request ) 
-    {
-        $landmark = new Landmark();
-        $form = $this->createForm( new LandmarkType(), $landmark );
+        $landmark = $this->get('doctrine_mongodb')
+                         ->getManager()
+                         ->getRepository('LandmarxLandmarkBundle:Landmark')
+                         ->findBySlug($slug);
 
-        if ( $request->getMethod() == 'POST' ) 
-        {
-            $form->bindRequest( $this->getRequest() );
-            if( $form->isValid() ) 
-            {
-                $em = $this->getDoctrine()->getEntityManager();
-                $em->persist( $landmark );
-                $em->flush();
-
-              return $this->render( 'LandmarxLandmarkBundle:Landmark:show.html.twig', array(
-                  'landmark_slug' => $landmark->getSlug()
-              ));
-            }
+        if (!$landmark) {
+            throw $this->createNotFoundException('No landmark found.');
         }
 
-        return $this->render( 'LandmarxLandmarkBundle:Landmark:new.html.twig', array(
-            'form' => $form->createView()
-        ));
+        return $this->render(
+            'LandmarxLandmarkBundle:Landmark:show.html.twig',
+            array('landmark' => $landmark)
+        );
+    }
+
+    /**
+     * @Route("/new", name="landmarx_landmark_new")
+     * @Template("LandmarxLandmarkBundle:Landmark:new.html.twig")
+     */
+    public function newAction(Request $request)
+    {
+        $landmark = new Landmark();
+        $form = $this->createForm(new LandmarkFormType());
+
+        if ("POST" == $request->getMethod()) {
+            $form->handleRequest($this->getRequest());
+            if ($form->isValid()) {
+                $dm = $this->get('doctrine_mongodb')->getManager();
+                $dm->persist($landmark);
+                $dm->flush();
+
+                $this->get('session')->getFlashBag()->add(
+                    'success',
+                    'landmark added.'
+                );
+
+                return $this->render(
+                    'LandmarxLandmarkBundle:Landmark:show.html.twig',
+                    array('landmark' => $landmark)
+                );
+            }
+
+            return array('form' => $form->createView());
+        }
     }
 }

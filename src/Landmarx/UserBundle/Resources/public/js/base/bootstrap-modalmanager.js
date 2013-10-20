@@ -82,12 +82,12 @@
 
 						modal.$element.show();
 
-						if (transition) {       
-							//modal.$element[0].style.display = 'run-in';       
+						if (transition) {
+							//modal.$element[0].style.display = 'run-in';
 							modal.$element[0].offsetWidth;
-							//modal.$element.one($.support.transition.end, function () { modal.$element[0].style.display = 'block' });  
+							//modal.$element.one($.support.transition.end, function () { modal.$element[0].style.display = 'block' });
 						}
-						
+
 						modal.layout();
 
 						modal.$element
@@ -196,7 +196,7 @@
 				topModal.$backdrop = null;
 
 				callback && topModal.$element.one('hidden',
-					targetIsSelf( $.proxy(callback, this) ));
+					targetIsSelf($.proxy(callback, this)));
 
 				topModal.hide();
 			} else if (callback) {
@@ -234,8 +234,8 @@
 			var $container;
 
 			$container = $('<div class="modal-scrollable">')
-				.css('z-index', getzIndex( 'modal',
-					modal ? this.getIndexOfModal(modal) : this.stack.length ))
+				.css('z-index', getzIndex('modal',
+					modal ? this.getIndexOfModal(modal) : this.stack.length))
 				.appendTo(this.$element);
 
 			if (modal && modal.options.backdrop != 'static') {
@@ -262,7 +262,7 @@
 
 				modal.$backdrop = this.createBackdrop(animate);
 
-				modal.$backdrop.css('z-index', getzIndex( 'backdrop', this.getIndexOfModal(modal) ));
+				modal.$backdrop.css('z-index', getzIndex('backdrop', this.getIndexOfModal(modal)));
 
 				if (doAnimate) modal.$backdrop[0].offsetWidth; // force reflow
 
