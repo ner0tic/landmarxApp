@@ -1,8 +1,8 @@
 <?php
-namespace Landmarx\LandmarkBundle\Traits;
+namespace Landmarx\CollectionBundle\Traits;
 
 use Landmarx\UserBundle\Document\AttributeTypes;
-use Landmarx\LandmarkBundle\Document\Attribute;
+use Landmarx\CollectionBundle\Document\Attribute;
 
 trait AttributeTrait
 {
@@ -60,7 +60,7 @@ trait AttributeTrait
 
     /**
      * Attribute parent
-     * @var Landmarx\LandmarkBundle\Document\Attribute attribute
+     * @var Landmarx\CollectionBundle\Document\Attribute attribute
      */
     protected $parent;
 
@@ -180,7 +180,7 @@ trait AttributeTrait
 
     /**
      * Set attribute configuration
-     * @param [type] $config [description]
+     * @param string $config description
      */
     public function setConfiguration($config)
     {

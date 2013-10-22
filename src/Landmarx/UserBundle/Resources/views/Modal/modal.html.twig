@@ -1,0 +1,35 @@
+{% block modal %}
+<div class="modal hide fade">
+
+    {% block modal_header %}
+    <div class="modal-header">
+
+        {% block modal_header_content %}
+        {{ header | title }}
+        {% endblock %}
+
+    </div>
+    {% endblock %}
+
+    {% block modal_content %}
+    <div class="modal-content">
+
+        {% block modal_content_content %}
+        {{ content }}
+        {% endblock %}
+
+    </div>
+    {% endblock %}
+
+    {% block modal_footer %}
+    <div class="modal-footer">
+
+        {% block modal_footer_content %}
+        {{ footer }}
+        {% endblock %}
+
+    </div>
+    {% endblock %}
+
+</div>
+{% endblock %}

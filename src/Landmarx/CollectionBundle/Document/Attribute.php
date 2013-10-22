@@ -1,5 +1,5 @@
 <?php
-namespace Landmarx\LandmarkBundle\Document;
+namespace Landmarx\CollectionBundle\Document;
 
 use Landmarx\UserBundle\Document\AttributeInterface;
 use Landmarx\UserBundle\Document\BlameableInterface;
