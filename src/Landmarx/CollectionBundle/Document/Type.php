@@ -1,33 +1,34 @@
 <?php
-namespace Landmarx\LandmarkBundle\Document;
+namespace Landmarx\CollectionBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-use Landmarx\LandmarkBundle\Repository\CategoryRepository;
-use Landmarx\UtilityBundle\Traits\BlameableTrait;
+use Landmarx\CollectionBundle\Traits\TypeTrait;
+use Landmarx\CollectionBundle\Repository\TypeRepository;
 use Landmarx\UtilityBundle\Traits\SluggableTrait;
 use Landmarx\UtilityBundle\Traits\TimestampableTrait;
+use Landmarx\UtilityBundle\Traits\BlameableTrait;
 
 /**
- * @ODM\Document(repositoryClass="CategoryRepository")
+ * @ODM\Document(repositoryClass="TypeRepository")
  */
-class Category
+abstract class Type
 {
     use SluggableTrait;
     use TimestampableTrait;
     use BlameableTrait;
 
     /**
-     * Landmark category id
+     * Type id
      * @var integer
      * @ODM\Id
      */
     protected $id;
 
     /**
-     * Get category id
+     * Get type id
      * @return integer Id
      */
     public function getId()
@@ -36,7 +37,7 @@ class Category
     }
 
     /**
-     * Set category id
+     * Set type id
      * @param integer $id Id
      */
     public function setId($id)
@@ -95,15 +96,15 @@ class Category
     }
 
     /**
-     * Landmark category
-     * @var Category
-     * @ODM\ReferenceOne(targetDocument="Category")
+     * Type parent
+     * @var Type $parent
+     * @ODM\ReferenceOne(targetDocument="Type")
      */
     protected $parent = null;
 
     /**
-     * Get parent landmark category
-     * @return Category Parent landmark category
+     * Get type parent
+     * @return Type type parent
      */
     public function getParent()
     {
@@ -111,45 +112,13 @@ class Category
     }
 
     /**
-     * Set parent landmark category
-     * @param Category $parent Parent
+     * Set type parent
+     * @param Type $parent type parent
      */
-    public function setParent(Category $parent)
+    public function setParent(Type $parent)
     {
         $this->parent = $parent;
 
         return $this;
-    }
-
-    /**
-     * @ODM\Boolean
-     */
-    protected $public = true;
-
-    /**
-     * Set public
-     *
-     * @param bool $public
-     * @return Category
-     */
-    public function setPublic($public = true)
-    {
-        $this->public = $public;
-        return $this;
-    }
-
-    /**
-     * Is public
-     *
-     * @return bool
-     */
-    public function isPublic($public = null)
-    {
-        if (null != $public && is_bool($public)) {
-            $this->public = $oublic;
-
-            return $this;
-        }
-        return (bool) $this->public;
     }
 }

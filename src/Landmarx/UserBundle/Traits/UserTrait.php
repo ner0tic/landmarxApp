@@ -4,6 +4,23 @@ namespace Landmarx\UserBundle\Traits;
 trait UserTrait
 {
     /**
+     * @var integer $id
+     *
+     * @ODM\Id
+     */
+    protected $id;
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
      * @ODM\String
      * @Assert\NotBlank(message="Please enter your first name.", groups={"Registration", "Profile"})
      * @Assert\Length(
@@ -83,18 +100,8 @@ trait UserTrait
     protected $avatar = '/bundles/pmsuser/img/avatars/default.png';
 
     /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
     * @Gedmo\Slug(fields={"lastname", "firstname"})
-    * @ORM\Column(length=128, unique=true)
+    * @ODM\string
     */
     protected $slug;
 

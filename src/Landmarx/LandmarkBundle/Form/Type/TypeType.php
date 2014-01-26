@@ -4,9 +4,9 @@ namespace Landmarx\LandmarkBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-use Landmarx\LandmarkBundle\Document\Category;
+use Landmarx\LandmarkBundle\Document\Type;
 
-class CategoryType extends AbstractType
+class TypeType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -17,7 +17,7 @@ class CategoryType extends AbstractType
             'entity',
             array(
                 'property' =>  'name',
-                'class' => 'Landmarx\LandmarkBundle\Document\Category',
+                'class' => 'Landmarx\LandmarkBundle\Document\Type',
                 'required' => false
            )
         );
@@ -33,6 +33,6 @@ class CategoryType extends AbstractType
 
     public function getName()
     {
-        return 'category';
+        return 'type';
     }
 }

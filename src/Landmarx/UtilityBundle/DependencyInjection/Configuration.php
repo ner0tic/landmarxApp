@@ -1,6 +1,6 @@
 <?php
 
-namespace Landmarx\LandmarkBundle\DependencyInjection;
+namespace Landmarx\UtilityBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -18,15 +18,11 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('landmarx_landmark');
+        $rootNode = $treeBuilder->root('landmarx_utility');
 
-        $rootNode
-            ->children()
-            ->scalarNode('default_radius')->defaultValue(50)->end()
-            ->scalarNode('default_ip')->defaultValue('74.7.133.89')->end()
-            ->scalarNode('api_key')->defaultValue('XXXXXXXXXXXXX')->end()
-            ->scalarNode('api_secret')->defaultValue('5E(R3T')->end()
-            ->end();
+        // Here you should define the parameters that are allowed to
+        // configure your bundle. See the documentation linked above for
+        // more information on that topic.
 
         return $treeBuilder;
     }

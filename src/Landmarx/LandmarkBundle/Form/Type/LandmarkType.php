@@ -3,8 +3,9 @@ namespace Landmarx\LandmarkBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Landmarx\LandmarkBundle\Document\Landmark;
 use Oh\GoogleMapFormTypeBundle\Form\Type\GoogleMapType;
+
+use Landmarx\LandmarkBundle\Document\Landmark;
 
 class LandmarkType extends AbstractType
 {
@@ -13,13 +14,13 @@ class LandmarkType extends AbstractType
         $builder->add('name');
         $builder->add('description');
         $builder->add(
-            'kind',
+            'type',
             'entity',
             array(
                 'property' =>  'name',
-                'class' => 'Landmarx\LandmarkBundle\Document\Kind'
+                'class' => 'Landmarx\LandmarkBundle\Document\Type'
            )
-       );
+        );
         $builder->add(
             'parent',
             'entity',
@@ -27,15 +28,15 @@ class LandmarkType extends AbstractType
                     'property' =>  'name',
                     'class' => 'Landmarx\LandmarkBundle\Document\Landmark'
            )
-       );
+        );
         $builder->add(
             'categories',
             'entity',
             array(
               'property' =>  'name',
-              'class' => 'Landmarx\LandmarkBundle\Document\LandmarkCategory'
+              'class' => 'Landmarx\LandmarkBundle\Document\Category'
            )
-       );
+        );
         $builder->add(
             'public',
             'checkbox',
@@ -43,7 +44,7 @@ class LandmarkType extends AbstractType
                 'label'     => 'Show this landmark publicly?',
                 'required'  => false,
           )
-       );
+        );
         $builder->add('created_by', 'hidden');
         $builder->add('updated_by', 'hidden');
         $builder->add('latlng', new GoogleMapType());
@@ -54,7 +55,7 @@ class LandmarkType extends AbstractType
                 'property' => 'name',
                 'class' => 'Landmarx\LandmarkBundle\Document\LandmarkAttribute'
            )
-       );
+        );
     }
 
     public function getName()

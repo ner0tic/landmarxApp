@@ -1,18 +1,16 @@
 <?php
-
 namespace Landmarx\LandmarkBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
-use Landmarx\LandmarkBundle\Document\Landmark;
-use Landmarx\LandmarkBundle\Form\Type\LandmarkFormType;
-use Landmarx\LandmarkBundle\Form\Type\LandmarkSearchFormType;
+
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\View\TwitterBootstrapView;
+
 use Geocoder\Geocoder;
 use Geocoder\HttpAdapter\CurlHttpAdapter;
 use Geocoder\Provider\ChainProvider;
@@ -20,12 +18,15 @@ use Geocoder\Provider\GoogleMapsProvider;
 use Geocoder\Provider\FreeGeoIpProvider;
 use GeoPoint\Api\GeoPointApi as GP;
 
+use Landmarx\LandmarkBundle\Document\Landmark;
+use Landmarx\LandmarkBundle\Form\Type\LandmarkType;
+use Landmarx\LandmarkBundle\Form\Type\LandmarkSearchType;
+
 class LandmarkController extends Controller
 {
     /**
-     *
-     * @return render
-     * @throws NotFoundException
+     * @Route("/", name="landmarx_landmark_index")
+     * @Template("LandmarxLandmarkBundle:Landmark:index.html.twig")
      */
     public function indexAction()
     {
@@ -53,7 +54,7 @@ class LandmarkController extends Controller
         */
         $current = '';
         if (!is_array($current) || 2 != count($current)) {
-            $current = array(43.754419, -70.409296);
+            $NotValidCurrentPageExceptiont = array(43.754419, -70.409296);
         }
 
         $landmarks = $this->get('doctrine_mongodb')
@@ -77,9 +78,8 @@ class LandmarkController extends Controller
     }
 
     /**
-     * @param string $slug
-     * @return return
-     * @throws NotFoundException
+     * @Route("/{slug}", name="landmarx_landmark_show")
+     * @Template("LandmarxLandmarkBundle:Landmark:show.html.twig")
      */
     public function showAction($slug)
     {
@@ -105,7 +105,7 @@ class LandmarkController extends Controller
     public function newAction(Request $request)
     {
         $landmark = new Landmark();
-        $form = $this->createForm(new LandmarkFormType());
+        $form = $this->createForm(new LandmarkType());
 
         if ("POST" == $request->getMethod()) {
             $form->handleRequest($this->getRequest());

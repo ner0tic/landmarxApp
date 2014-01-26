@@ -6,25 +6,29 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+
 use Geocoder\Geocoder;
 use Geocoder\HttpAdapter\CurlHttpAdapter;
 use Geocoder\Provider\ChainProvider;
 use Geocoder\Provider\GoogleMapsProvider;
 use Geocoder\Provider\FreeGeoIpProvider;
 use GeoPoint\Api\GeoPointApi as GP;
+
 use Landmarx\LandmarkBundle\Document\Category;
 use Landmarx\LandmarkBundle\Form\Type\CategoryType;
 
 class CategoryController extends Controller
 {
     /**
-     *
-     * @return render
-     * @throws NotFoundException
+     * @Route("/", name="landmarx_category_index")
+     * @Template("LandmarxLandmarkBundle:Category:index.html.twig")
      */
     public function indexAction()
     {
-        $categories = $this;
+        $categories = $this->get('doctrine_mongodb')
+                                ->getManager()
+                                ->getRepository('LandmarxLandmarkBundle:Category')
+                                ->findAllOrderedByName();
 
         if (!$categories) {
             throw $this->createNotFoundException('No categories found.');
@@ -34,10 +38,8 @@ class CategoryController extends Controller
     }
 
     /**
-     *
-     * @param string $slug
-     * @return return
-     * @throws NotFoundException
+     * @Route("/{slug}", name="landmarx_category_show")
+     * @Template("LandmarxLandmarkBundle:Category:show.html.twig")
      */
     public function showAction($slug)
     {
@@ -52,6 +54,10 @@ class CategoryController extends Controller
         return $this->render('LandmarxLandmarkBundle:Category:show.html.twig', array('category' => $category));
     }
 
+    /**
+     * @Route("/new", name="landmarx_category_new")
+     * @Template("LandmarxLandmarkBundle:Category:new.html.twig")
+     */
     public function newAction(Request $request)
     {
         $category = new Category();
