@@ -15,11 +15,14 @@
         });
     </script>
 {% endblock %}
+
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('/bundles/landmarxlandmark/css/landmarks.css') }}" />
+    <link rel="stylesheet" href="{{ asset('/bundles/landmarxutility/css/index.css') }}" />
+    <link rel="stylesheet" href="{{ asset('/bundles/landmarxlandmark/css/landmark.css') }}" />
     <link rel="stylesheet" href="{{ asset('/bundles/landmarxlandmark/css/map.css') }}" />
 {% endblock %}
+
 {% block content %}
     {% block gmap %}
     <div id="map"></div>

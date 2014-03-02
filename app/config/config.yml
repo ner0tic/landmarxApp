@@ -49,7 +49,7 @@ assetic:
     assets:
         bootstrap_css:
             inputs:
-                - %kernel.root_dir%/../src/Landmarx/UserBundle/Resources/public/less/build.less
+                - %kernel.root_dir%/../src/Landmarx/UtilityBundle/Resources/public/less/build.less
             filters:
                 - less
                 - cssrewrite
@@ -88,8 +88,35 @@ doctrine_mongodb:
     document_managers:
         default:
             auto_mapping: true
+            mappings:
+                FOSUserBundle: ~
+                LandmarxUserBundle: ~
+                gedmo_translatable:
+                    type: annotation
+                    prefix: Gedmo\Translatable\Document
+                    dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translatable/Document"
+                    alias: GedmoTranslatable # this one is optional and will default to the name set for the mapping
+                    is_bundle: false
+                gedmo_translator:
+                    type: annotation
+                    prefix: Gedmo\Translator\Document
+                    dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translator/Document"
+                    alias: GedmoTranslator # this one is optional and will default to the name set for the mapping
+                    is_bundle: false
+                gedmo_loggable:
+                    type: annotation
+                    prefix: Gedmo\Loggable\Document
+                    dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Document"
+                    alias: GedmoLoggable # this one is optional and will default to the name set for the mapping
+                    is_bundle: false
+                gedmo_tree:
+                    type: annotation
+                    prefix: Gedmo\Tree\Document
+                    dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Document"
+                    alias: GedmoTree # this one is optional and will default to the name set for the mapping
+                    is_bundle: false
 
-#doctrine:
+# doctrine:
 #    dbal:
 #        driver:   %database_driver%
 #        host:     %database_host%
@@ -98,45 +125,18 @@ doctrine_mongodb:
 #        user:     %database_user%
 #        password: %database_password%
 #        charset:  UTF8
-
-    orm:
-        auto_generate_proxy_classes: %kernel.debug%
-        entity_managers:
-            default:
-                auto_mapping: true
-                mappings:
-                    FOSUserBundle: ~
-                    gedmo_translatable:
-                        type: annotation
-                        prefix: Gedmo\Translatable\Entity
-                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translatable/Entity"
-                        alias: GedmoTranslatable # this one is optional and will default to the name set for the mapping
-                        is_bundle: false
-                    gedmo_translator:
-                        type: annotation
-                        prefix: Gedmo\Translator\Entity
-                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translator/Entity"
-                        alias: GedmoTranslator # this one is optional and will default to the name set for the mapping
-                        is_bundle: false
-                    gedmo_loggable:
-                        type: annotation
-                        prefix: Gedmo\Loggable\Entity
-                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity"
-                        alias: GedmoLoggable # this one is optional and will default to the name set for the mapping
-                        is_bundle: false
-                    gedmo_tree:
-                        type: annotation
-                        prefix: Gedmo\Tree\Entity
-                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity"
-                        alias: GedmoTree # this one is optional and will default to the name set for the mapping
-                        is_bundle: false
+#    orm:
+#        auto_generate_proxy_classes: %kernel.debug%
+#        entity_managers:
+#            default:
+#
 
 ################################################################################
 ## Doctrine Extensions
 ################################################################################
 stof_doctrine_extensions:
     default_locale: en_US
-    orm:
+    mongodb:
         default:
           timestampable: true
           sluggable: true
@@ -169,9 +169,9 @@ jms_aop:
 ## FOS
 ################################################################################
 fos_user:
-    db_driver: orm
+    db_driver: mongodb
     firewall_name: main
-    user_class: Landmarx\UserBundle\Entity\User
+    user_class: Landmarx\UserBundle\Document\User
     registration:
         form:
             type: landmarx_user_registration
@@ -225,7 +225,7 @@ ivory_google_map:
 ## Vich Uploader
 ################################################################################
 vich_uploader:
-    db_driver: orm
+    db_driver: mongodb
     twig: true
 
 ################################################################################
@@ -248,3 +248,10 @@ bc_bootstrap:
 ###############################################################################
 white_october_pagerfanta:
     default_view: twitter_bootstrap
+
+###############################################################################
+## MONGODB ACL Configuration
+###############################################################################
+iam_persistent_mongo_db_acl:
+    acl_provider:
+        default_database: %database_name%

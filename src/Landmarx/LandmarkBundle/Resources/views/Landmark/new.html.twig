@@ -1,5 +1,16 @@
 {% extends '::base.html.twig' %}
 
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('/bundles/landmarxuser/css/new.css') }}" rel="stylesheet" />
+    <link href="{{ asset('/bundles/landmarxuser/css/form.css') }}" rel="stylesheet" />
+    <link href="{{ asset('/bundles/landmarxlandmark/css/landmark.css') }}" rel="stylesheet" />
+{% endblock %}
+
 {% block content %}
     <div id="form-container">
         <fieldset>

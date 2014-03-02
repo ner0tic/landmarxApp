@@ -1,53 +1,74 @@
 <?php
 namespace Landmarx\UtilityBundle\Menu;
 
-use Knp\Menu\FactoryInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class MenuBuilder implements ContainerAwareInterface
+use Landmarx\UtilityBundle\Menu\BaseBuilder;
+
+class MenuBuilder extends BaseBuilder
 {
-    public function __construct(FactoryInterface $factory, ContainerInterface $container = null)
+    /**
+     * @param Request $request request
+     * @return MenuItem 
+     */
+    public function profileMenu(Request $request)
     {
-        $this->factory = $factory;
-        $this->container = $container;
+        $menu = $this->factory->createItem($this->securityContext->getUser()->getName())
+                ->setAttribute('dropdown', true)
+                ->setAttribute('icon', 'icon-user');
+
+        $menu->addChild(
+            'view profile',
+            array(
+                'route' => 'fos_user_profile_show',
+                'routeParameters' => array(
+                    'slug' => $this->securityContext->getSlug()
+                )
+            )
+        );
+
+        $menu->addChild(
+            'edit profile',
+            array(
+                'route' => 'fos_user_profile_edit',
+                'routeParameters' => array(
+                    'slug' => $this->securityContext->getSlug()
+                )
+            )
+        );
+
+        $menu->addChild(
+            'change password',
+            array('route' => 'fos_user_change_password')
+        );
+
+        $menu->addChild(
+            'sign out',
+            array('route' => 'fos_user_security_logout')
+        );
     }
 
-    public function setContainer(ContainerInterface $container = null)
+    public function createMainMenu(Request $request)
     {
-        $this->container = $container;
-    }
-
-    public function createMainMenu(Request $request, $container = null)
-    {
-        $this->setContainer($container);
-        //$this->user = $this->container->get(' security.context')->getToken()->getUser();
-
         $menu = $this->factory->createItem('root');
+        $menu->setChildrenAttribute('class', 'nav pull-right');
 
         $menu->addChild(
             'home',
             array('route'   =>  'homepage')
         );
-        ////////////////////////////////////////////////////////////////////////
-        // Landmarks ///////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////
-        $menu->addChild(
-            'landmarks',
-            array('route'   =>  'landmarks')
-        )
-        ->setAttribute('dropdown', true);
-        ////////////////////////////////////////////////////////////////////////
-        // Landmarks :: search /////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////
+
+        /**
+        * Landmarks Menu
+        **/
+        $menu->addChild('landmarks')
+                ->setAttribute('dropdown', true)
+                ->setAttribute('icon', 'icon-user');
         $menu[ 'landmarks' ]->addChild(
             'find a landmark',
             array('route'   =>  'landmarx_landmark_search')
         );
-        ////////////////////////////////////////////////////////////////////////
-        // Landmarks :: add ////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////
+    
         $menu[ 'landmarks' ]->addChild(
             'add a landmark',
             array('route'         =>  'landmarx_landmark_new')
@@ -58,78 +79,56 @@ class MenuBuilder implements ContainerAwareInterface
                 'data-toggle'   =>  'modal'
             )
         );
-        ////////////////////////////////////////////////////////////////////////
-        // Landmarks :: Categories /////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////
+
+        /**
+        * Landmarks :: Categories Submenu
+        **/
         $menu[ 'landmarks' ]->addChild(
             'landmark categories',
             array('route'   =>  'landmarx_category')
         );
-        ////////////////////////////////////////////////////////////////////////
-        // Landmarks :: Categories :: add //////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////
         $menu[ 'landmarks' ][ 'landmark categories' ]->addChild(
             'add a category',
             array('route'   =>  'landmarx_category_new')
         );
-        ////////////////////////////////////////////////////////////////////////
-        // Landmarks :: Kind ///////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////
+
+        /**
+        * Landmarks :: Type Submenu
+        **/
         $menu[ 'landmarks' ]->addChild(
-            'landmark kinds',
-            array('route'   =>  'landmarx_kind_index')
+            'landmark types',
+            array('route'   =>  'landmarx_type_index')
         );
-        ////////////////////////////////////////////////////////////////////////
-        // Landmarks :: Kinds :: add ///////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////
-        $menu[ 'landmarks' ][ 'landmark kinds' ]->addChild(
-            'add a kind',
-            array('route'   =>  'landmarx_kind_new')
-        );
-        ////////////////////////////////////////////////////////////////////////
-        // Collections /////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////
+        if ($this->securityContext->isGranted('USER_ADMIN')) {
+            $menu[ 'landmarks' ][ 'landmark types' ]->addChild(
+                'add a type',
+                array('route'   =>  'landmarx_type_new')
+            );
+        }
+
+        /**
+        * Collections Menu
+        **/
         $menu->addChild(
             'collections',
             array('route'   =>  'landmarx_collection_index')
         )
-        ->setAttribute('dropdown', true);
-        ////////////////////////////////////////////////////////////////////////
-        // Collections :: my ///////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////
+        ->setAttribute('dropdown', true)
+        ->setAttribute('icon', 'icon-user');
         $menu[ 'collections' ]->addChild(
             'my collections',
             array('route'   =>  'landmarx_collections_index_by_user')
         );
-        ////////////////////////////////////////////////////////////////////////
-        // Collections :: search ///////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////
         $menu[ 'collections' ]->addChild(
             'search',
             array('route'   =>  'landmarx_collection_search')
         );
-        ////////////////////////////////////////////////////////////////////////
-        // Collections :: my ///////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////
         $menu[ 'collections' ]->addChild(
             'create',
             array('route'   =>  'landmarx_collection_new')
         );
-        ////////////////////////////////////////////////////////////////////////
-        // Auth ////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////
-        if (1==2) {//$user->isGranted("IS_AUTHENTICATED_REMEMBERED"))
-            ////////////////////////////////////////////////////////////////////
-            // Auth :: signout /////////////////////////////////////////////////
-            ////////////////////////////////////////////////////////////////////
-            $menu->addChild(
-                'signout',
-                array('route'   =>  'fos_user_security_logout')
-            );
-        } else {
-            ////////////////////////////////////////////////////////////////////
-            // Auth :: signup //////////////////////////////////////////////////
-            ////////////////////////////////////////////////////////////////////
+        
+        if ($this->securityContext->isGranted('IS_AUTHENTICATED_ANONYMOUSLY')) {
             $menu->addChild(
                 'signup',
                 array(
@@ -139,19 +138,10 @@ class MenuBuilder implements ContainerAwareInterface
                         'role'          =>  'button',
                         'class'         =>  'btn',
                         'data-toggle'   =>  'modal',
-                        'data-remote'   => $this->container
-                            ->get('router')
-                            ->generate(
-                                'fos_user_registration_register',
-                                array(),
-                                true
-                            )
+                        'data-remote'   => "path('fos_user_registration_register')"
                     )
                 )
             );
-            ////////////////////////////////////////////////////////////////////////
-            // Auth :: signin //////////////////////////////////////////////////////
-            ////////////////////////////////////////////////////////////////////////
             $menu->addChild(
                 'signin',
                 array(
@@ -161,17 +151,14 @@ class MenuBuilder implements ContainerAwareInterface
                         'role'          =>  'button',
                         'class'         =>  'btn',
                         'data-toggle'   =>  'modal',
-                        'data-remote'   => $this->container
-                            ->get('router')
-                            ->generate(
-                                'fos_user_security_login',
-                                array(),
-                                true
-                            )
+                        'data-remote'   => "path('fos_user_registration_register')"
                     )
                 )
             );
+        } else {
+            $menu->addChild($this->profileMenu());
         }
+
         return $menu;
     }
 }

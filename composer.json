@@ -1,74 +1,100 @@
+
 {
+    "name": "ner0tic/landmarx",
+    "license": "MIT",
+    "type": "project",
+    "description": "landmark mapping website.",
+    "autoload": {
+        "psr-0": { "": "src/" }
+    },
     "repositories": [
         {
-            "type":"vcs",
-            "url":"/media/Projects/php/php-geopoint-api"
+            "type": "package",
+            "package": {
+                "name": "jquery/jquery",
+                "version": "1.9.1",
+                "dist": {
+                    "url": "http://code.jquery.com/jquery-1.9.1.js",
+                    "type": "file"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "ner0tic/bootstrap-dropdown-hover",
+                "version": "1.0.0",
+                "dist": {
+                    "url": "https://raw.github.com/ner0tic/twitter-bootstrap-hover-dropdown/master/twitter-bootstrap-hover-dropdown.js",
+                    "type": "file"
+                }
+            }
         }
     ],
     "config": {
         "process-timeout": 20000
     },
     "require": {
-        "php":                                                      ">=5.3",
+        "php":                                       ">=5.4",
 
-        "symfony/symfony":                                          "2.2.1",
-        "symfony/assetic-bundle":                                   "2.1.*",
-        "sensio/distribution-bundle":                               "2.2.*",
-        "sensio/framework-extra-bundle":                            "2.2.*",
-        "sensio/generator-bundle":                                  "2.2.*",
-        "symfony/translation":                                      "*",
+        "symfony/symfony":                           "2.3.*",
+        "symfony/assetic-bundle":                    "2.1.*",
+        "symfony/swiftmailer-bundle":                "2.2.*",
+        "symfony/monolog-bundle":                    "2.2.*",
+        "symfony/translation":                           "*",
 
-        "twig/extensions":                                          "1.0.*",
+        "doctrine/mongodb":                      "1.0.*@dev",
+        "doctrine/mongodb-odm":                  "1.0.*@dev",
+        "doctrine/mongodb-odm-bundle":           "3.0.*@dev",
+        "doctrine/doctrine-fixtures-bundle":    "dev-master",
+        "doctrine/data-fixtures":                "1.0.x-dev",
+        "iampersistent/mongodb-acl-bundle":     "dev-master",
 
-        "doctrine/mongodb":                                         "1.0.*@dev",
-        "doctrine/mongodb-odm":                                     "1.0.*@dev",
-        "doctrine/mongodb-odm-bundle":                              "3.0.*@dev",
-        "doctrine/doctrine-fixtures-bundle":                        "dev-master",
-        "doctrine/data-fixtures":                                   "1.0.x-dev",
+        "incenteev/composer-parameter-handler":       "~2.0",
 
-        "symfony/assetic-bundle":                                   "2.1.2",
-        "kriswallsmith/assetic":                                    "1.1.x-dev",
+        "sensio/distribution-bundle":                "2.3.*",
+        "sensio/framework-extra-bundle":             "2.3.*",
+        "sensio/generator-bundle":                   "2.3.*",
 
-        "jms/aop-bundle":                                           "1.0.0.0",
-        "jms/security-extra-bundle":                                    "1.5.*@dev",
-        "jms/di-extra-bundle":                                          "1.4.*@dev",
-        "jms/serializer-bundle":                                                "*",
+        "jms/aop-bundle":                          "1.0.0.0",
+        "jms/security-extra-bundle":             "1.5.*@dev",
+        "jms/di-extra-bundle":                   "1.4.*@dev",
+        "jms/serializer-bundle":                         "*",
 
-        "symfony/security-bundle":                                  "2.2.*",
-        "symfony/swiftmailer-bundle":                               "v2.2.1",
-        "symfony/monolog-bundle":                                   "2.2.*",
+        "gedmo/doctrine-extensions":             "2.3.x-dev",
+        "stof/doctrine-extensions-bundle":        "~1.1@dev",
 
-        "gedmo/doctrine-extensions":                                "2.3.x-dev",
-        "stof/doctrine-extensions-bundle":                          "dev-master",
+        "friendsofsymfony/user-bundle":          "2.0.*@dev",
+        
+        "white-october/pagerfanta-bundle":      "dev-master",
+        "pagerfanta/pagerfanta":                "dev-master",
 
-        "friendsofsymfony/user-bundle":                             "*",
+        "braincrafted/bootstrap-bundle":             "1.4.2",
+        "twitter/bootstrap":                         "2.3.*",
+        "jquery/jquery":                             "1.9.*",
+        "leafo/lessphp":                        "dev-master",
+        "ner0tic/bootstrap-dropdown-hover":              "*",
 
-        "kriswallsmith/buzz":                                       "dev-master",
+        "knplabs/knp-menu":                      "2.0.x-dev",
+        "knplabs/knp-menu-bundle":              "dev-master",
 
-        "willdurand/geocoder":                                      ">=1.0.0",
-        "egeloen/google-map-bundle":                                "1.0",
-        "oh/google-map-form-type-bundle":                           "*",
+        "liip/imagine-bundle":                  "dev-master",
+    
+        "kriswallsmith/buzz":                   "dev-master",
+        "willdurand/geocoder":                     ">=1.0.0",
+        "egeloen/google-map-bundle":                   "1.0",
+        "oh/google-map-form-type-bundle":                "*",
+        
+        "ner0tic/php-api-core":                      "2.0.*",
+        "ner0tic/php-geopoint-api":                      "*",
+        "ner0tic/foursquare-api":                    "2.0.*",
 
-        "white-october/pagerfanta-bundle":                          "dev-master",
-        "pagerfanta/pagerfanta":                                    "dev-master",
-
-        "braincrafted/bootstrap-bundle":                            "1.4.2",
-        "twitter/bootstrap":                                        "2.3.*",
-
-        "ner0tic/php-api-core":                                     "2.0.*",
-        "ner0tic/php-geopoint-api":                                 "*",
-        "ner0tic/foursquare-api":                                   "2.0.*",
-
-        "vich/uploader-bundle":                                     "dev-master",
-
-        "knplabs/knp-gaufrette-bundle":                             "dev-master",
-        "knplabs/knp-last-tweets-bundle":                           "*",
-        "knplabs/knp-menu":                                         "2.0.x-dev",
-        "knplabs/knp-menu-bundle":                                  "dev-master"
+        "vich/uploader-bundle":                 "dev-master",
+        "knplabs/knp-gaufrette-bundle":         "dev-master"
     },
     "require-dev": {
-        "elao/web-profiler-extra-bundle":                           "dev-master",
-        "jms/debugging-bundle":                                     "dev-master"
+        "elao/web-profiler-extra-bundle":       "dev-master",
+        "jms/debugging-bundle":                 "dev-master"
     },
     "autoload": {
         "psr-0": {

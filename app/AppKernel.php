@@ -14,7 +14,7 @@ class AppKernel extends Kernel
             new Symfony\Bundle\MonologBundle\MonologBundle(),
             new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
-            new Doctrine\Bundle\MongoDBBundle\DoctrineMongoDBBundle()
+            new Doctrine\Bundle\MongoDBBundle\DoctrineMongoDBBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new JMS\AopBundle\JMSAopBundle(),
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
@@ -33,6 +33,9 @@ class AppKernel extends Kernel
             new Vich\UploaderBundle\VichUploaderBundle(),
             new Bc\Bundle\BootstrapBundle\BcBootstrapBundle(),
             new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
+            new IamPersistent\MongoDBAclBundle\IamPersistentMongoDBAclBundle(),
+            new Landmarx\UtilityBundle\LandmarxUtilityBundle(),
+            new Landmarx\AttributeBundle\LandmarxAttributeBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

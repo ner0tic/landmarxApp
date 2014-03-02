@@ -1,23 +1,16 @@
 <?php
 namespace Landmarx\LandmarkBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
 use Pagerfanta\Pagerfanta;
-use Pagerfanta\Adapter\DoctrineORMAdapter;
+use Pagerfanta\Adapter\DoctrineODMMongoDBAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\View\TwitterBootstrapView;
 
-use Geocoder\Geocoder;
-use Geocoder\HttpAdapter\CurlHttpAdapter;
-use Geocoder\Provider\ChainProvider;
-use Geocoder\Provider\GoogleMapsProvider;
-use Geocoder\Provider\FreeGeoIpProvider;
-use GeoPoint\Api\GeoPointApi as GP;
-
+use Landmarx\UtilityBundle\Controller\UtilityController as Controller;
 use Landmarx\LandmarkBundle\Document\Landmark;
 use Landmarx\LandmarkBundle\Form\Type\LandmarkType;
 use Landmarx\LandmarkBundle\Form\Type\LandmarkSearchType;
@@ -30,50 +23,37 @@ class LandmarkController extends Controller
      */
     public function indexAction()
     {
-        // get geo location of user
-        $gp = new GP();
-        /**
-         * @todo  temp hardcode the key and secret
-         */
-        $gp->getClient()
-           ->setApiKey('120.1.517bcf11e4b0a3353cbcc9a7.3LO8lVZsV')
-           ->setSecret('ilO81G2p');
-
-        $ip = $_SERVER['REMOTE_ADDR'];
-
-        if (in_array($ip, array('127.0.0.1', '10.10.0.1'))) {
-            $ip = '74.7.133.89';
-        }
-
-        $ipinfo = $gp->get($ip);
-        /**
-        $current = array(
-            $ipinfo[ 'ipinfo' ][ 'Location' ][ 'latitude' ],
-            $ipinfo[ 'ipinfo' ][ 'Location' ][ 'longitude' ]
-        );
-        */
-        $current = '';
+        $current = $this->ipinfo['ipinfo']['location'];
         if (!is_array($current) || 2 != count($current)) {
-            $NotValidCurrentPageExceptiont = array(43.754419, -70.409296);
+            $current = array(43.754419, -70.409296);
+            $this->get('session')->getFlashBag()->add(
+                'warning',
+                'your location could not accurately be determined. Default coordinates have been used.'
+            );
         }
 
-        $landmarks = $this->get('doctrine_mongodb')
-                                ->getManager()
+        $radius = $this->getRequest()->get('radius', 25);
+
+        $query = $this->get('doctrine_mongodb')
                                 ->getRepository('LandmarxLandmarkBundle:Landmark')
-                                ->findAllOrderedByName();
+                                ->createQueryBuilder('l')
+                                ->field('coordinates')
+                                ->geoNear(
+                                    $current['latitude'],
+                                    $current['longitude']
+                                )
+                                ->spherical(true)
+                                ->distanceMultiplier(3963.192) // 3963.192 miles |  6378.137 for km
+                                ->maxDistance($radius);
 
-        // delimite with a radius of the users location here
+        $pager = new Pagerfanta(new DoctrineODMMongoDBAdapter($query));
+        $pager->setMaxPerPage($this->getRequest()->get('pageMax', 10));
+        $pager->setCurrentPage($this->getRequest()->get('page', 1));
 
-        if (!$landmarks) {
-            throw $this->createNotFoundException('No landmarks found.');
-        }
-
-        return $this->render(
-            'LandmarxLandmarkBundle:Landmark:index.html.twig',
-            array(
-                'landmarks' => $landmarks,
-                'current' => $current
-          )
+        return array(
+            'landmarks' => $pager->getCurrentPageResults(),
+            'current' => $current,
+            'pager' => $pager
         );
     }
 
@@ -84,18 +64,18 @@ class LandmarkController extends Controller
     public function showAction($slug)
     {
         $landmark = $this->get('doctrine_mongodb')
-                         ->getManager()
                          ->getRepository('LandmarxLandmarkBundle:Landmark')
-                         ->findBySlug($slug);
+                         ->findOneBySlug($slug);
 
         if (!$landmark) {
-            throw $this->createNotFoundException('No landmark found.');
+            $this->get('session')->getFlashBag()->add(
+                'error',
+                'no matching landmark found.'
+            );
+            $this->redirect($this->generateUrl('landmarx_landmark_index'));
         }
 
-        return $this->render(
-            'LandmarxLandmarkBundle:Landmark:show.html.twig',
-            array('landmark' => $landmark)
-        );
+        return array('landmark' => $landmark);
     }
 
     /**
@@ -105,12 +85,12 @@ class LandmarkController extends Controller
     public function newAction(Request $request)
     {
         $landmark = new Landmark();
-        $form = $this->createForm(new LandmarkType());
+        $form = $this->createForm(new LandmarkType(), $landmark);
 
         if ("POST" == $request->getMethod()) {
             $form->handleRequest($this->getRequest());
             if ($form->isValid()) {
-                $dm = $this->get('doctrine_mongodb')->getManager();
+                $dm = $this->get('doctrine_mongOdb')->getManager();
                 $dm->persist($landmark);
                 $dm->flush();
 

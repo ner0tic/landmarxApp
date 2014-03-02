@@ -48,6 +48,7 @@ class LandmarkType extends AbstractType
         $builder->add('created_by', 'hidden');
         $builder->add('updated_by', 'hidden');
         $builder->add('latlng', new GoogleMapType());
+        /*
         $builder->add(
             'attributes',
             'entity',
@@ -56,6 +57,7 @@ class LandmarkType extends AbstractType
                 'class' => 'Landmarx\LandmarkBundle\Document\LandmarkAttribute'
            )
         );
+        */
     }
 
     public function getName()

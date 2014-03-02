@@ -1,28 +1,64 @@
 {% extends '::base.html.twig' %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+    <script type="text/javascript" src="{{ asset('/bundles/landmarxlandmark/js/gmaps.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            map = new GMaps({
+                div: '#map',
+                lat: {{ landmark.coordinates.latitude }},
+                lng: {{ landmark.coordinates.longitude] }},
+                MapTypeId: google.maps.MapTypeId.TERRAIN,
+                disableDefaultUI: true,
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('/bundles/landmarxuser/css/show.css') }}" rel="stylesheet" />
+    <link href="{{ asset('/bundles/landmarxlandmark/css/landmark.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ asset('/bundles/landmarxlandmark/css/map.css') }}" />
+{% endblock %}
+
 {% block content %}
-<ul>
-  <li><h3>{{ landmark.name }}</h3></li>
-  <li><h3>{{ landmark.description }}</h3></li>
-  <li><h3>Main Category: {{ landmark.primary_category }}</h3></li>
-  <li>
-    <h3>Categories:</h3>
-    <ul>
-    {% for category in landmark.categories %}
-      <li><h4>{{ category.name | title }}</h4></li>
-    {% endfor %}
-    </ul>
-  </li>
-  <li>
-    <h3>Lat/Lng: {{ landmark.latlng }}</h3>
-  </li>
-  <li>
-    <h3>Attributes:</h3>
-    <ul>
-    {% for attribute in landmark.attributes %}
-        <li><h4>{{ attribute.name | title }}</h4></li>
-    {% endfor %}
-    </ul>
-  </li>
-</ul>
+    {% block gmap %}
+    <div id="map"></div>
+    {% endblock %}
+    {% block info_overlay %}
+    <div id="info-overlay-wrapper">
+        <div class="info-overlay-bg"></div>
+        <div id="info-overlay">
+            <ul>
+              <li><h3>{{ landmark.name }}</h3></li>
+              <li><h3>{{ landmark.description }}</h3></li>
+              <li><h3>Main Category: {{ landmark.primary_category }}</h3></li>
+              <li>
+                <h3>Categories:</h3>
+                <ul>
+                {% for category in landmark.categories %}
+                  <li><h4>{{ category.name | title }}</h4></li>
+                {% endfor %}
+                </ul>
+              </li>
+              <li>
+                <h3>{{ 'coordinates' | title }}: {{ landmark.coords }}</h3>
+              </li>
+              <li>
+                <h3>Attributes:</h3>
+                <ul>
+                {% for attribute in landmark.attributes %}
+                    <li><h4>{{ attribute.name | title }}</h4></li>
+                {% else %}
+                    <li><i>no attributes</i></li>
+                {% endfor %}
+                </ul>
+              </li>
+            </ul>
+        </div>
+    </div>
+    {% endblock %}
 {% endblock %}

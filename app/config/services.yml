@@ -2,21 +2,25 @@ services:
     twig.extension.text:
         class: Twig_Extensions_Extension_Text
         tags:
-            - { name: twig.extension }  
-        
-################################################################################
-## KnP Menu ####################################################################
-################################################################################
+            - { name: twig.extension }
+
+    mongodb_acl_provider:
+        parent: doctrine_mongodb.odm.security.acl.provider
+
+    pagerfanta.view.default:
+        class: Pagerfanta\View\DefaultView
+        public: false
+        tags: [{ name: pagerfanta.view, alias: default }]
+
     landmarx_menu.menu_builder:
         class: Landmarx\UserBundle\Menu\MenuBuilder
-        arguments: ["@knp_menu.factory"]
+        arguments: ["@knp_menu.factory", "@security.context", "@translator"]
 
     landmarx_menu.menu.main:
         class: Knp\Menu\MenuItem # the service definition requires setting the class
         factory_service: landmarx_menu.menu_builder
         factory_method: createMainMenu
-        arguments: [ "@request", "@service_container" ]
-        scope: request # needed as we have the request as a dependency here
+        arguments: [ "@request" ]
+        scope: request
         tags:
-            - { name: knp_menu.menu, alias: main } # The alias is what is used to retrieve the menu
-           
+            - { name: knp_menu.menu, alias: main }

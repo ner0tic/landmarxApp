@@ -12,42 +12,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="Content-Language" content="en" />
+    
     <link rel="alternate" type="application/rss+xml" href="/feed/" title="RSS" />
-    <title>{% block title %}Landmarx :: If you build it, they will come.{% endblock %}</title>
-    <meta name="description" content="summer camp scheduling system">
+
+    <title>{% block title %}Landmarx :: If you build it, they will find it.{% endblock %}</title>
+
+    <meta name="description" content="landmark collecting ysystem">
     <meta name="author" content="david durost">
 <!--  Mobile viewport optimized: j.mp/bplateviewport -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Place favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
     <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
-<!-- CSS : implied media="all" -->
+
     {% block stylesheets %}
-        <link rel="stylesheet" href=" {{ asset('/bundles/landmarxuser/css/base/reset.css') }}" /> 
-        <link rel="stylesheet" href=" {{ asset('css/bootstrap.css') }} " />
-        <link rel="stylesheet" href="{{ asset('/bundles/landmarxuser/css/base/landmarx.css') }}" />
-    {% endblock %}
-    {% block javascripts %}
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+        <link rel="stylesheet" href=" {{ asset('/bundles/landmarxutility/css/reset.css') }}" /> 
+        <link rel="stylesheet" href=" {{ asset('/bundles/landmarxutility/css/bootstrap.css') }} " />
+        <link rel="stylesheet" href="{{ asset('/bundles/landmarxutility/css/landmarx.css') }}" />
         <link href='http://fonts.googleapis.com/css?family=ABeeZee|Simonetta:400,900|Skranji:400,700|Exo:400,600,800|Kavoon' rel='stylesheet' type='text/css'>
-        <script type="text/javascript" src="{{ asset('/bundles/landmarxuser/js/base/landmarx.js') }}"></script>     
-        <script type="text/javascript" stc=" {{ asset( 'js/bootstrap.js' ) }}"></script>
-        <script type="text/javascript">
-          function goLogIn(){
-            window.location.href = "{{ path('_security_check') }}"
-          }
-          function onFbInit() {
-            if (typeof(FB) != 'undefined' && FB != null ) {
-              FB.Event.subscribe('auth.statusChange', function(response) {
-                if (response.session || response.authResponse) {
-                  setTimeout(goLogIn, 500);
-                } else {
-                  window.location.href = "{{ path('_security_logout') }}";
-                }
-              });
-            }
-          }
-        </script>
     {% endblock %}     
   </head>
   <body>
@@ -56,7 +38,7 @@
       <div class="wrapper">
         <div id="logo">
         {% block logo %}
-          <a href="{{ path('homepage') }}"><img src="{{ asset('bundles/landmarxuser/img/logo.png') }}" alt="Landmarx" width="200px" /></a>
+          <a href="{{ path('homepage') }}"><img src="{{ asset('bundles/landmarxutility/img/logo.png') }}" alt="Landmarx" width="200px" /></a>
         {% endblock %}  
         </div>
         <nav>
@@ -75,6 +57,27 @@
     {% block footer %}      
       &copy; 2012 all rights reserved.
     {% endblock %}
-    </footer>     
+    </footer> 
+        {% block javascripts %}
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script type="text/javascript" src="{{ asset('/bundles/landmarxutility/js/landmarx.js') }}"></script>     
+        <script type="text/javascript" src=" {{ asset( '/bundles/landmarxutility/js/bootstrap.js' ) }}"></script>
+        <script type="text/javascript">
+          function goLogIn(){
+            window.location.href = "{{ path('_security_check') }}"
+          }
+          function onFbInit() {
+            if (typeof(FB) != 'undefined' && FB != null ) {
+              FB.Event.subscribe('auth.statusChange', function(response) {
+                if (response.session || response.authResponse) {
+                  setTimeout(goLogIn, 500);
+                } else {
+                  window.location.href = "{{ path('_security_logout') }}";
+                }
+              });
+            }
+          }
+        </script>
+    {% endblock %}    
   </body>
 </html>

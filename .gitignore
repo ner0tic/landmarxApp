@@ -18,6 +18,3 @@ composer.lock
 # Misc
 *~
 nbproject/*
-
-
-/composer.phar

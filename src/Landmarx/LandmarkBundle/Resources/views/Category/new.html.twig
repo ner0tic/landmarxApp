@@ -1,10 +1,21 @@
 {% extends '::base.html.twig' %}
 
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('/bundles/landmarxutility/css/new.css') }}" rel="stylesheet" />
+    <link href="{{ asset('/bundles/landmarxutility/css/form.css') }}" rel="stylesheet" />
+    <link href="{{ asset('/bundles/landmarxlandmark/css/category.css') }}" rel="stylesheet" />
+{% endblock %}
+
 {% block content %}
     <div id="form-container">
         <fieldset>
-            <h2>{{ 'add a kind' | title }}</h2>
-            <form action="{{ path('landmarx_kind_new') }}" method="post" {{ form_enctype(form) }}>
+            <h2>{{ 'add a category' | title }}</h2>
+            <form action="{{ path('landmarx_category_new') }}" method="post" {{ form_enctype(form) }}>
                 {% block form %}
                 <div id="form-errors" class="hidden">
                     {{ form_errors(form) }}

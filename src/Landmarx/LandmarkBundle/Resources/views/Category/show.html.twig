@@ -1,9 +1,37 @@
 {% extends '::base.html.twig' %}
 
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('/bundles/landmarxutility/css/show.css') }}" rel="stylesheet" />
+    <link href="{{ asset('/bundles/landmarxlandmark/css/category.css') }}" rel="stylesheet" />
+{% endblock %}
+
 {% block content %}
-<ul>
-  <li><h3>{{ category.name }}</h3></li>
-  <li><h3>{{ category.description }}</h3></li>
-  <li><h3>{{ category.parent }}</h3></li>
-</ul>
+    {% block info_overlay %}
+    <div id="info-overlay-wrapper">
+        <div class="info-overlay-bg"></div>
+        <div id="info-overlay">
+            <ul>
+              <li><h3>{{ category.name }}</h3></li>
+              <li><h3>{{ category.description }}</h3></li>
+              <li><h3>Main Category: {{ category.primary_category }}</h3></li>
+              <li>
+                <h3>Categories:</h3>
+                <ul>
+                {% for category in category.categories %}
+                  <li><h4>{{ category.name | title }}</h4></li>
+                {% endfor %}
+                </ul>
+              </li>
+              <li>
+                <h3>{{ 'parent category' | title }}: {{ category.parent }}</h3>
+              </li>
+            </ul>
+        </div>
+    </div>
+    {% endblock %}
 {% endblock %}

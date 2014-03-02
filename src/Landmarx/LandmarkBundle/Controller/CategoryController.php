@@ -1,19 +1,16 @@
 <?php
-
 namespace Landmarx\LandmarkBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
-use Geocoder\Geocoder;
-use Geocoder\HttpAdapter\CurlHttpAdapter;
-use Geocoder\Provider\ChainProvider;
-use Geocoder\Provider\GoogleMapsProvider;
-use Geocoder\Provider\FreeGeoIpProvider;
-use GeoPoint\Api\GeoPointApi as GP;
+use Pagerfanta\Pagerfanta;
+use Pagerfanta\Adapter\DoctrineODMMongoDBAdapter;
+use Pagerfanta\Exception\NotValidCurrentPageException;
+use Pagerfanta\View\TwitterBootstrapView;
 
+use Landmarx\UtilityBundle\Controller\UtilityController as Controller;
 use Landmarx\LandmarkBundle\Document\Category;
 use Landmarx\LandmarkBundle\Form\Type\CategoryType;
 
@@ -25,16 +22,19 @@ class CategoryController extends Controller
      */
     public function indexAction()
     {
-        $categories = $this->get('doctrine_mongodb')
-                                ->getManager()
+        $query = $this->get('doctrine_mongodb')
                                 ->getRepository('LandmarxLandmarkBundle:Category')
-                                ->findAllOrderedByName();
+                                ->createQueryBuilder('c')
+                                ->OrderedBy('c.name', 'ASC');
+        
+        $pager = new Pagerfanta(new DoctrineODMMongoDBAdapter($query));
+        $pager->setMaxPerPage($this->getRequest()->get('pageMax', 10));
+        $pager->setCurrentPage($this->getRequest()->get('page', 1));
 
-        if (!$categories) {
-            throw $this->createNotFoundException('No categories found.');
-        }
-
-        return $this->render('LandmarxLandmarkBundle:Category:index.html.twig', array('categories' => $categories));
+        return array(
+            'categories' => $pager->getCurrentPageResults(),
+            'pager' => $pager
+        );
     }
 
     /**
@@ -43,15 +43,19 @@ class CategoryController extends Controller
      */
     public function showAction($slug)
     {
-        $category = $this->getDoctrine()
-                       ->getRepository('LandmarxLandmarkBundle:Category')
-                       ->findBySlug($slug);
+        $category = $this->get('doctrine_mongodb')
+                         ->getRepository('LandmarxLandmarkBundle:Category')
+                         ->findOneBySlug($slug);
 
         if (!$category) {
-            throw $this->createNotFoundException('No landmark category found.');
+            $this->get('session')->getFlashBag()->add(
+                'error',
+                'no matching category found.'
+            );
+            $this->redirect($this->generateUrl('landmarx_category_index'));
         }
 
-        return $this->render('LandmarxLandmarkBundle:Category:show.html.twig', array('category' => $category));
+        return array('category' => $category);
     }
 
     /**
@@ -63,23 +67,25 @@ class CategoryController extends Controller
         $category = new Category();
         $form = $this->createForm(new CategoryType(), $category);
 
-        if ('POST' == $request->getMethod()) {
-            $form->bindRequest($this->getRequest());
+        if ("POST" == $request->getMethod()) {
+            $form->handleRequest($this->getRequest());
             if ($form->isValid()) {
-                $em = $this->getDoctrine()->getEntityManager();
-                $em->persist($category);
-                $em->flush();
+                $dm = $this->get('doctrine_mongOdb')->getManager();
+                $dm->persist($category);
+                $dm->flush();
+
+                $this->get('session')->getFlashBag()->add(
+                    'success',
+                    'category added.'
+                );
 
                 return $this->render(
                     'LandmarxLandmarkBundle:Category:show.html.twig',
                     array('category' => $category)
                 );
             }
-        }
 
-        return $this->render(
-            'LandmarxLandmarkBundle:Category:new.html.twig',
-            array('form' => $form->createView())
-        );
+            return array('form' => $form->createView());
+        }
     }
 }

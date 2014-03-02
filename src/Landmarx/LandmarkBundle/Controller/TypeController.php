@@ -1,17 +1,14 @@
 <?php
 namespace Landmarx\LandmarkBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
-use Geocoder\Geocoder;
-use Geocoder\HttpAdapter\CurlHttpAdapter;
-use Geocoder\Provider\ChainProvider;
-use Geocoder\Provider\GoogleMapsProvider;
-use Geocoder\Provider\FreeGeoIpProvider;
-use GeoPoint\Api\GeoPointApi as GP;
+use Pagerfanta\Pagerfanta;
+use Pagerfanta\Adapter\DoctrineODMMongoDBAdapter;
+use Pagerfanta\Exception\NotValidCurrentPageException;
+use Pagerfanta\View\TwitterBootstrapView;
 
 use Landmarx\LandmarkBundle\Document\Type;
 use Landmarx\LandmarkBundle\Form\Type\TypeType;
@@ -24,16 +21,19 @@ class TypeController extends Controller
      */
     public function indexAction()
     {
-        $types = $this->get('doctrine_mongodb')
-                                ->getManager()
+        $query = $this->get('doctrine_mongodb')
                                 ->getRepository('LandmarxLandmarkBundle:Type')
-                                ->findAllOrderedByName();
+                                ->createQueryBuilder('t')
+                                ->OrderedBy('t.name', 'ASC');
+        
+        $pager = new Pagerfanta(new DoctrineODMMongoDBAdapter($query));
+        $pager->setMaxPerPage($this->getRequest()->get('pageMax', 10));
+        $pager->setCurrentPage($this->getRequest()->get('page', 1));
 
-        if (!$types) {
-            throw $this->createNotFoundException('No types found.');
-        }
-
-        return $this->render('LandmarxLandmarkBundle:Type:index.html.twig', array('types' => $types));
+        return array(
+            'types' => $pager->getCurrentPageResults(),
+            'pager' => $pager
+        );
     }
 
     /**
@@ -42,18 +42,19 @@ class TypeController extends Controller
      */
     public function showAction($slug)
     {
-        $type = $this->getDoctrine()
-                       ->getRepository('LandmarxLandmarkBundle:Type')
-                       ->findBySlug($slug);
+        $type = $this->get('doctrine_mongodb')
+                         ->getRepository('LandmarxLandmarkBundle:Type')
+                         ->findOneBySlug($slug);
 
         if (!$type) {
-            throw $this->createNotFoundException('No landmark type found.');
+            $this->get('session')->getFlashBag()->add(
+                'error',
+                'no matching type found.'
+            );
+            $this->redirect($this->generateUrl('landmarx_type_index'));
         }
 
-        return $this->render(
-            'LandmarxLandmarkBundle:Type:show.html.twig',
-            array('type' => $type)
-        );
+        return array('type' => $type);
     }
 
     /**
@@ -65,23 +66,25 @@ class TypeController extends Controller
         $type = new Type();
         $form = $this->createForm(new TypeType(), $type);
 
-        if ('POST' == $request->getMethod()) {
-            $form->bindRequest($this->getRequest());
+        if ("POST" == $request->getMethod()) {
+            $form->handleRequest($this->getRequest());
             if ($form->isValid()) {
-                $em = $this->getDoctrine()->getEntityManager();
-                $em->persist($type);
-                $em->flush();
+                $dm = $this->get('doctrine_mongOdb')->getManager();
+                $dm->persist($type);
+                $dm->flush();
+
+                $this->get('session')->getFlashBag()->add(
+                    'success',
+                    'type added.'
+                );
 
                 return $this->render(
                     'LandmarxLandmarkBundle:Type:show.html.twig',
                     array('type' => $type)
                 );
             }
-        }
 
-        return $this->render(
-            'LandmarxLandmarkBundle:Type:new.html.twig',
-            array('form' => $form->createView())
-        );
+            return array('form' => $form->createView());
+        }
     }
 }
