@@ -32,33 +32,47 @@
     <div id="info-overlay-wrapper">
         <div class="info-overlay-bg"></div>
         <div id="info-overlay">
-            <ul>
-              <li><h3>{{ landmark.name }}</h3></li>
-              <li><h3>{{ landmark.description }}</h3></li>
-              <li><h3>Main Category: {{ landmark.primary_category }}</h3></li>
-              <li>
-                <h3>Categories:</h3>
-                <ul>
-                {% for category in landmark.categories %}
-                  <li><h4>{{ category.name | title }}</h4></li>
-                {% endfor %}
-                </ul>
-              </li>
-              <li>
-                <h3>{{ 'coordinates' | title }}: {{ landmark.coords }}</h3>
-              </li>
-              <li>
-                <h3>Attributes:</h3>
-                <ul>
-                {% for attribute in landmark.attributes %}
-                    <li><h4>{{ attribute.name | title }}</h4></li>
-                {% else %}
-                    <li><i>no attributes</i></li>
-                {% endfor %}
-                </ul>
-              </li>
-            </ul>
+            <div class="fluid-container">
+                {{ block('icon') }}
+                {{ block('info') }}
+                {{ block('categories') }}
+                {{ block('attributes') }}
+            </div>
         </div>
     </div>
     {% endblock %}
+{% endblock %}
+
+{% block attributes %}
+<div class="span12 attributes">
+    <fieldset>
+        <legend>{{ 'attributes' | title }}</legend>
+        {% include 'LandmarxLandmarkBundle:Attribute:index.html.twig', with { 'attributes': landmark.attributes } %}
+    </fieldset>
+</div>
+{% endblock %}
+
+{% block icon %}
+<div class="span4 icon">
+    <i class="icon {{ landmark.slug }}-icon"></i>
+</div>
+{% endblock %}
+
+{% block info %}
+<div class="span8 info">
+    <ul>
+        <li>{{ landmark.name | title }}</li>
+        <li>{{ landmark.type | title }}</li>
+        <li>{{ landmark.description }}</li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block categories %}
+<div class="span12 categories">
+    <fieldset>
+        <legend>{{ 'categories' | title }}</legend>
+        {% include 'LandmarxLandmarkBundle:Category:index.html.twig', with { 'categories': landmark.categories } %}
+    </fieldset>
+</div>
 {% endblock %}

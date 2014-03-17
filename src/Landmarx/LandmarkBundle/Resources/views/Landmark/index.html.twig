@@ -1,4 +1,5 @@
 {% extends '::base.html.twig' %}
+
 {% block javascripts %}
     {{ parent() }}
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
@@ -27,17 +28,81 @@
     {% block gmap %}
     <div id="map"></div>
     {% endblock %}
+    
     {% block info_overlay %}
     <div id="info-overlay-wrapper">
         <div class="info-overlay-bg"></div>
         <div id="info-overlay">
             <h2>{{ "landmarks nearby" | title }}</h2>
-            <ul>
-                {% for landmark in landmarks %}
-                <li>{{ landmark | title }}</li>
-                {% endfor %}
-            </ul>
+            {{ block ('results') }}
         </div>
     </div>
     {% endblock %}
+{% endblock %}
+
+{% block results %}
+    <ul>
+        {% foreach landmark in landmarks %}
+        <li>
+            <div class="item {{ (landmark is even ? 'even' : 'odd') }}-item">
+                {{ block('item_content') }}
+                {{ block('toolbox') }}
+                
+            </div>   
+        </li>
+        {% else %}
+        <li><em>{{ 'no landmarks found.' | title }}</em></li>
+        {% endforeach %}   
+        {{ block('pager') }}
+    </ul>
+{% endblock %}
+
+{% block item_icon %}
+<div class="item-icon">
+    <i class="icon {{ landmark.type.slug }}-icon"></i>
+</div> 
+{% endblock %}
+
+{% block item_label %}
+<div class="item-label">
+    <p class="item-title">{{ landmark.name | title }}</p>
+    <hr />
+    <p class="item-subtitle">{{ landmark.type | title }}</p>
+</div>
+{% endblock %}
+
+{% block item_content %}
+<div class="item-content">
+    {{ block('item_icon') }}
+    {{ block('item_label') }}                    
+</div>
+{% endblock %}
+
+{% block toolbox %}
+<div class="toolbox">
+    <ul>
+        <li>{{ path('landmarx_landmark_show', { 'slug': landmark.slug }) }}">
+                <i class="preview-icon icon"></i>
+            </a>
+        </li>
+        {% if is_granted({'ROLE_ADMIN', 'ROLE_OWNER'}) %}
+        <li>
+            <a href="{{ path('landmarx_landmark_edit, { 'slug': landmark.slug }) }}">
+                <i class="edit-icon icon"></i>
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('landmarx_landmark_remove', { 'slug': landmark.slug }) }}">
+                <i class="remove-icon icon">
+            </a>
+        </li>
+        {% end if %}
+    </ul>
+</div>
+{% endblock %}
+
+{% block pager %}
+<li class="pager">
+    {{ pager }}
+</li>
 {% endblock %}

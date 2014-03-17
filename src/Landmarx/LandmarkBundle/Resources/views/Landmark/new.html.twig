@@ -15,7 +15,7 @@
     <div id="form-container">
         <fieldset>
             <h2>{{ 'add a landmark' | title }}</h2>
-            <form action="{{ path('landmark_new') }}" method="post" {{ form_enctype(form) }}>
+            <form action="{{ path('landmarx_landmark_new') }}" method="post" {{ form_enctype(form) }}>
                 {% block form %}
                 <div id="form-errors" class="hidden">
                     {{ form_errors(form) }}

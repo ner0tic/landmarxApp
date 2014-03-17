@@ -10,6 +10,7 @@ use Pagerfanta\Adapter\DoctrineODMMongoDBAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\View\TwitterBootstrapView;
 
+use Landmarx\UtilityBundle\Controller\UtilityController as Controller;
 use Landmarx\LandmarkBundle\Document\Type;
 use Landmarx\LandmarkBundle\Form\Type\TypeType;
 

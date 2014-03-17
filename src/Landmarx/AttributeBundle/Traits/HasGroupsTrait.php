@@ -48,17 +48,17 @@ trait HasGroupsTrait
      * Add a Attribute group
      * @param Landmarx\AttributeBundle\Document\Group $group Attribute group
      */
-    public function addgroup(group $group)
+    public function addGroup(group $group)
     {
         return $this->groups->add($group);
     }
 
-    public function hasgroup($group)
+    public function hasGroup($group)
     {
         return !$this->groups->isEmpty();
     }
 
-    public function removegroup(group $group)
+    public function removeGroup(group $group)
     {
         return $this->groups->remove($group);
     }
