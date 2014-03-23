@@ -6,13 +6,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-use Landmarx\LandmarkBundle\Repository\TypeRepository;
 use Landmarx\UtilityBundle\Traits\SluggableTrait;
 use Landmarx\UtilityBundle\Traits\TimestampableTrait;
 use Landmarx\UtilityBundle\Traits\BlameableTrait;
 
 /**
- * @ODM\Document(repositoryClass="TypeRepository")
+ * @ODM\Document(repositoryClass="Landmarx\LandmarkBundle\Repository\TypeRepository")
  */
 class Type
 {

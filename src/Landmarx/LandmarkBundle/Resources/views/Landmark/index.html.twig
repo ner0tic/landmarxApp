@@ -8,8 +8,8 @@
         $(document).ready(function() {
             map = new GMaps({
                 div: '#map',
-                lat: {{ current[0] }},
-                lng: {{ current[1] }},
+                lat: {{ current['latitude'] }},
+                lng: {{ current['longitude'] }},
                 MapTypeId: google.maps.MapTypeId.TERRAIN,
                 disableDefaultUI: true,
             });
@@ -42,7 +42,7 @@
 
 {% block results %}
     <ul>
-        {% foreach landmark in landmarks %}
+        {% for landmark in landmarks %}
         <li>
             <div class="item {{ (landmark is even ? 'even' : 'odd') }}-item">
                 {{ block('item_content') }}
@@ -52,7 +52,7 @@
         </li>
         {% else %}
         <li><em>{{ 'no landmarks found.' | title }}</em></li>
-        {% endforeach %}   
+        {% endfor %}   
         {{ block('pager') }}
     </ul>
 {% endblock %}
@@ -85,9 +85,9 @@
                 <i class="preview-icon icon"></i>
             </a>
         </li>
-        {% if is_granted({'ROLE_ADMIN', 'ROLE_OWNER'}) %}
+        {% if is_granted(['ROLE_ADMIN', 'ROLE_OWNER']) %}
         <li>
-            <a href="{{ path('landmarx_landmark_edit, { 'slug': landmark.slug }) }}">
+            <a href="{{ path('landmarx_landmark_edit', { 'slug': landmark.slug }) }}">
                 <i class="edit-icon icon"></i>
             </a>
         </li>
@@ -96,13 +96,22 @@
                 <i class="remove-icon icon">
             </a>
         </li>
-        {% end if %}
+        {% endif %}
     </ul>
 </div>
 {% endblock %}
 
 {% block pager %}
 <li class="pager">
-    {{ pager }}
+    <div class="container">
+        <div class="pull-left">
+            {{ 'Showing '~pager.currentPageResults|length~' of '~pager.nbResults~' items.' | lower }}
+        </div>
+        <div class="pull-right">
+            {% if pager.haveToPaginate %}
+            {{ pagerfanta(pager) }}
+            {% endif %}
+        </div>
+    </div>
 </li>
 {% endblock %}

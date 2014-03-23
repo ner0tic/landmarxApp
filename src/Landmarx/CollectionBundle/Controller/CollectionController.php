@@ -18,6 +18,7 @@ class CollectionController extends Controller
 {
     /**
      * @Route("/", name="landmarx_collection_index")
+     * @Route("/my-collections", name="landmarx_collection_index_by_user")
      * @Template("LandmarxCollectionBundle:Collection:index.html.twig")
      */
     public function indexAction()
@@ -89,5 +90,13 @@ class CollectionController extends Controller
 
             return array('form' => $form->createView());
         }
+    }
+    /**
+     * @Route("/search", name="landmarx_collection_search")
+     * @Template("LandmarxCollectionBundle:Collection:search.html.twig")
+     */
+    public function searchAction(Request $request)
+    {
+        
     }
 }

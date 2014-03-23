@@ -28,19 +28,7 @@
     {% block gmap %}
     <div id="map"></div>
     {% endblock %}
-    {% block info_overlay %}
-    <div id="info-overlay-wrapper">
-        <div class="info-overlay-bg"></div>
-        <div id="info-overlay">
-            <div class="fluid-container">
-                {{ block('icon') }}
-                {{ block('info') }}
-                {{ block('categories') }}
-                {{ block('attributes') }}
-            </div>
-        </div>
-    </div>
-    {% endblock %}
+    {% include 'LandmarxLandmarkBundle:Modal:list' with {}}
 {% endblock %}
 
 {% block attributes %}

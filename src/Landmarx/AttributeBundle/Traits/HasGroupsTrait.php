@@ -1,6 +1,8 @@
 <?php
 namespace Landmarx\AttributeBundle\Traits;
 
+use Landmarx\AttributeBundle\Document\Group;
+
 trait HasGroupsTrait
 {
     /**

@@ -1,5 +1,5 @@
 imports:
-    - { resource: parameters.ini }
+    - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: doctrine_extensions.yml }
     - { resource: services.yml }
@@ -233,7 +233,7 @@ vich_uploader:
 ################################################################################
 knp_menu:
     twig: # false
-        template: LandmarxUserBundle:Menu:layout.html.twig
+        template: LandmarxUtilityBundle:Menu:layout.html.twig
     default_renderer: twig
 
 ################################################################################

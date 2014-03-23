@@ -6,7 +6,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-use Landmarx\AttributeBundle\Repository\TypekRepository;
 use Landmarx\UtilityBundle\Traits\BlameableTrait;
 use Landmarx\UtilityBundle\Traits\SluggableTrait;
 use Landmarx\UtilityBundle\Traits\TimestampableTrait;
@@ -16,7 +15,7 @@ use Landmarx\AttributeBundle\Renderer\AttributeRenderer;
 use Landmarx\AttributeBundle\Interfaces\RendererInterface;
 
 /**
- * @ODM\Document(repositoryClass="TypeRepository")
+ * @ODM\Document(repositoryClass="Landmarx\AttributeBundle\Repository\TypeRepository")
  */
 class Type
 {

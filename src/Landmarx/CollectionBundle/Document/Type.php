@@ -5,14 +5,12 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-use Landmarx\CollectionBundle\Traits\TypeTrait;
-use Landmarx\CollectionBundle\Repository\TypeRepository;
 use Landmarx\UtilityBundle\Traits\SluggableTrait;
 use Landmarx\UtilityBundle\Traits\TimestampableTrait;
 use Landmarx\UtilityBundle\Traits\BlameableTrait;
 
 /**
- * @ODM\Document(repositoryClass="TypeRepository")
+ * @ODM\Document(repositoryClass="Landmarx\CollectionBundle\Repository\TypeRepository")
  */
 abstract class Type
 {

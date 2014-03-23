@@ -6,14 +6,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-use Landmarx\AttributeBundle\Repository\AttributekRepository;
 use Landmarx\UtilityBundle\Traits\BlameableTrait;
 use Landmarx\UtilityBundle\Traits\SluggableTrait;
 use Landmarx\UtilityBundle\Traits\TimestampableTrait;
 use Landmarx\AttributeBundle\Traits\HasGroupsTrait;
 
 /**
- * @ODM\Document(repositoryClass="AttributeRepository")
+ * @ODM\Document(repositoryClass="Landmarx\AttributeBundle\Repository\AttributekRepository")
  */
 class Attribute
 {

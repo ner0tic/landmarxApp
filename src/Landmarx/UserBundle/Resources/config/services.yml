@@ -1,0 +1,4 @@
+services:
+    authentication_handler:
+        class:        Landmarx\UserBundle\Handler\AuthenticationHandler
+        arguments:    [@router, @security.context, @fos_user.user_manager, @service_container]

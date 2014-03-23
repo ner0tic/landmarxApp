@@ -1,0 +1,28 @@
+{% extends 'LandmarxUtilityBundle:Modal:sidebar.html.twig' %}
+
+{% block modal_title}{{ "landmarks" | title }}{% endblock %}
+
+{% block landmarks %}
+	<ul>
+	{% for landmark in landmarks %}
+		{% block landmark %}
+			{%- set orientation = landmark is even ? 'even' : 'odd' %}
+			<li class="landmark {{ orientation }}">
+				{% block landmark_icon %}
+				<i class="icon icon-{{ landmark.type.slug }}"></i>
+				{% endblock %}
+				{% block landmark_title %}
+				<h3>{{ landmark.name | title }}</h3>
+				{% endblock %}
+				{{ block('divider') }}
+				{% block landmark_type %}
+				<h1>{{ landmark.type | title }}</h1>
+				{% endblock %}
+			</li>
+		{% endblock %}
+	{% endfor %}
+	</ul>
+{% endblock %}
+
+{% block divider %}<hr />{% endblock %}
+

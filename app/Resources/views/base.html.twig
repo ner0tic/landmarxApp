@@ -64,7 +64,7 @@
         <script type="text/javascript" src=" {{ asset( '/bundles/landmarxutility/js/bootstrap.js' ) }}"></script>
         <script type="text/javascript">
           function goLogIn(){
-            window.location.href = "{{ path('_security_check') }}"
+            window.location.href = "{{ path('fos_user_security_check') }}"
           }
           function onFbInit() {
             if (typeof(FB) != 'undefined' && FB != null ) {
@@ -72,7 +72,7 @@
                 if (response.session || response.authResponse) {
                   setTimeout(goLogIn, 500);
                 } else {
-                  window.location.href = "{{ path('_security_logout') }}";
+                  window.location.href = "{{ path('fos_user_security_logout') }}";
                 }
               });
             }

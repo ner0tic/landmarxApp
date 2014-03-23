@@ -6,12 +6,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Oh\GoogleMapFormTypeBundle\Validator\Constraints as OhAssert;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-use Landmarx\UserBundle\Repository\UserRepository;
 use Landmarx\UtilityBundle\Traits\TimestampableTrait;
 use Landmarx\UtilityBundle\Traits\GeolocatableTrait;
 
 /**
- * @ODM\Document(repositoryClass="UserRepository")
+ * @ODM\Document(repositoryClass="Landmarx\UserBundle\Repository\UserRepository")
  */
 abstract class User
 {

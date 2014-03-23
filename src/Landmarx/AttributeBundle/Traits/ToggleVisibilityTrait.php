@@ -16,9 +16,9 @@ trait ToggleVisibilityTrait
      * @param boolean $public
      * @return group
      */
-    public function setPublic(bool $public)
+    public function setPublic($public)
     {
-        $this->public = $public;
+        $this->public = (bool) $public;
         return $this;
     }
 
@@ -30,7 +30,7 @@ trait ToggleVisibilityTrait
     public function isPublic($public = null)
     {
         if (null != $public && is_bool($public)) {
-            $this->public = $oublic;
+            $this->public = $public;
 
             return $this;
         }

@@ -13,7 +13,7 @@ services:
         tags: [{ name: pagerfanta.view, alias: default }]
 
     landmarx_menu.menu_builder:
-        class: Landmarx\UserBundle\Menu\MenuBuilder
+        class: Landmarx\UtilityBundle\Menu\MenuBuilder
         arguments: ["@knp_menu.factory", "@security.context", "@translator"]
 
     landmarx_menu.menu.main:

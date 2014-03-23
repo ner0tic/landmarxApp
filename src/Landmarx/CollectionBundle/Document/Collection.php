@@ -5,15 +5,13 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-use Landmarx\CollectionBundle\Traits\CollectionTrait;
-use Landmarx\CollectionBundle\Repository\CollectionRepository;
 use Landmarx\LandmarkBundle\Document\Landmark;
 use Landmarx\UtilityBundle\Traits\BlameableTrait;
 use Landmarx\UtilityBundle\Traits\SluggableTrait;
 use Landmarx\UtilityBundle\Traits\TimestampableTrait;
 
 /**
- * @ODM\Document(repositoryClass="CollectionRepository")
+ * @ODM\Document(repositoryClass="Landmarx\CollectionBundle\Repository\CollectionRepository")
  */
 abstract class Collection
 {

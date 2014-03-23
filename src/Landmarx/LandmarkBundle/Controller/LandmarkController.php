@@ -23,9 +23,11 @@ class LandmarkController extends Controller
      */
     public function indexAction()
     {
-        $current = $this->ipinfo['ipinfo']['location'];
-        if (!is_array($current) || 2 != count($current)) {
-            $current = array(43.754419, -70.409296);
+        $current = $this->ipinfo['ipinfo']['Location'];
+        if (!is_array($current)) {
+            $current = array(
+                'latitude' => 43.754419, 
+                'longitude' => -70.409296);
             $this->get('session')->getFlashBag()->add(
                 'warning',
                 'your location could not accurately be determined. Default coordinates have been used.'
@@ -107,5 +109,14 @@ class LandmarkController extends Controller
 
             return array('form' => $form->createView());
         }
+    }
+
+    /**
+     * @Route("/search", name="landmarx_landmark_search")
+     * @Template("LandmarxLandmarkBundle:Landmark:search.html.twig")
+     */
+    public function searchAction(Request $request)
+    {
+        
     }
 }

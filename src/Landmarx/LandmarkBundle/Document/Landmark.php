@@ -7,14 +7,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Oh\GoogleMapFormTypeBundle\Validator\Constraints as OhAssert;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-use Landmarx\LandmarkBundle\Repository\LandmarkRepository;
 use Landmarx\UtilityBundle\Traits\BlameableTrait;
 use Landmarx\UtilityBundle\Traits\GeolocatableTrait;
 use Landmarx\UtilityBundle\Traits\SluggableTrait;
 use Landmarx\UtilityBundle\Traits\TimestampableTrait;
 
 /**
- * @ODM\Document(repositoryClass="LandmarkRepository")
+ * @ODM\Document(repositoryClass="Landmarx\LandmarkBundle\Repository\LandmarkRepository")
  */
 class Landmark
 {

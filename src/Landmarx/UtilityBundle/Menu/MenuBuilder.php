@@ -85,7 +85,7 @@ class MenuBuilder extends BaseBuilder
         **/
         $menu[ 'landmarks' ]->addChild(
             'landmark categories',
-            array('route'   =>  'landmarx_category')
+            array('route'   =>  'landmarx_category_index')
         );
         $menu[ 'landmarks' ][ 'landmark categories' ]->addChild(
             'add a category',
@@ -117,7 +117,7 @@ class MenuBuilder extends BaseBuilder
         ->setAttribute('icon', 'icon-user');
         $menu[ 'collections' ]->addChild(
             'my collections',
-            array('route'   =>  'landmarx_collections_index_by_user')
+            array('route'   =>  'landmarx_collection_index_by_user')
         );
         $menu[ 'collections' ]->addChild(
             'search',
