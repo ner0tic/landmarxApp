@@ -1,0 +1,34 @@
+{% block overlay %}
+    <div class="overlay {% block overlay_class %}{% endblock %}">
+        {% block overlay_content %}
+        <div class="overlay-content">
+            {{ block('overlay_header') }}
+            {{ block('overlay_body') }}
+            {{ block('overlay_footer') }}
+        </div>
+        {% endblock %}
+    </div>
+{% endblock %}
+
+{% block overlay_header %}
+    <div class="overlay-header">
+    	{% block overlay_header_content %}
+        <button type="button" class="minimize">&dash;</button>
+        <h4 class="overlay-title">{{ block('overlay_title') }}</h4>
+        {% endblock %}
+    </div>
+{% endblock %}
+
+{% block overlay_header_title %}{% endblock %}
+
+{% block overlay_body %}
+    <div class="overlay-body">
+        {% block overlay_body_content %}{% endblock %}
+    </div>
+{% endblock %}
+
+{% block overlay_footer %}
+    <div class="overlay-footer">
+	{% block overlay_footer_content %}{% endblock %}
+    </div>
+{% endblock %}

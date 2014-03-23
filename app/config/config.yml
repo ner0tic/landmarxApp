@@ -38,20 +38,19 @@ twig:
 assetic:
     debug:          %kernel.debug%
     use_controller: false
-    bundles:        [ ]
-    #java: /usr/bin/java
     filters:
+        lessphp:
+            file: %kernel.root_dir%/../vendor/leafo/lessphp/lessc.inc.php
+            apply_to: "\.less$"
+        less: ~
         cssrewrite: ~
-        less:
-            node: /usr/bin/nodejs
-            node_paths: [ /usr/local/lib/node_modules/ ]
-            apply_to:   "\.less$"
     assets:
         bootstrap_css:
             inputs:
-                - %kernel.root_dir%/../src/Landmarx/UtilityBundle/Resources/public/less/build.less
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/less/bootstrap.less
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/less/responsive.less
             filters:
-                - less
+                - lessphp
                 - cssrewrite
             output: css/bootstrap.css
         bootstrap_js:

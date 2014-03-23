@@ -22,8 +22,9 @@ class LandmarkController extends Controller
      * @Template("LandmarxLandmarkBundle:Landmark:index.html.twig")
      */
     public function indexAction()
-    {
+    {       
         $current = $this->ipinfo['ipinfo']['Location'];
+        
         if (!is_array($current)) {
             $current = array(
                 'latitude' => 43.754419, 

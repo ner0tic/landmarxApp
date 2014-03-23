@@ -27,7 +27,8 @@
 
     {% block stylesheets %}
         <link rel="stylesheet" href=" {{ asset('/bundles/landmarxutility/css/reset.css') }}" /> 
-        <link rel="stylesheet" href=" {{ asset('/bundles/landmarxutility/css/bootstrap.css') }} " />
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="{{ asset('/bundles/landmarxutility/css/landmarx.css') }}" />
         <link href='http://fonts.googleapis.com/css?family=ABeeZee|Simonetta:400,900|Skranji:400,700|Exo:400,600,800|Kavoon' rel='stylesheet' type='text/css'>
     {% endblock %}     
@@ -41,9 +42,9 @@
           <a href="{{ path('homepage') }}"><img src="{{ asset('bundles/landmarxutility/img/logo.png') }}" alt="Landmarx" width="200px" /></a>
         {% endblock %}  
         </div>
-        <nav>
+        <nav class="navbar" role="navigation">
         {% block nav %}
-          {{ knp_menu_render('main', { 'depth': 2 } ) }}
+          {{ knp_menu_render('main', { 'style': 'justified-pills' }) }}
         {% endblock %}
         </nav>
       </div>
@@ -59,9 +60,9 @@
     {% endblock %}
     </footer> 
         {% block javascripts %}
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
         <script type="text/javascript" src="{{ asset('/bundles/landmarxutility/js/landmarx.js') }}"></script>     
-        <script type="text/javascript" src=" {{ asset( '/bundles/landmarxutility/js/bootstrap.js' ) }}"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
         <script type="text/javascript">
           function goLogIn(){
             window.location.href = "{{ path('fos_user_security_check') }}"

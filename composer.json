@@ -18,17 +18,6 @@
                     "type": "file"
                 }
             }
-        },
-        {
-            "type": "package",
-            "package": {
-                "name": "ner0tic/bootstrap-dropdown-hover",
-                "version": "1.0.0",
-                "dist": {
-                    "url": "https://raw.github.com/ner0tic/twitter-bootstrap-hover-dropdown/master/twitter-bootstrap-hover-dropdown.js",
-                    "type": "file"
-                }
-            }
         }
     ],
     "config": {
@@ -73,10 +62,9 @@
         "pagerfanta/pagerfanta":                "dev-master",
 
         "braincrafted/bootstrap-bundle":             "1.4.2",
-        "twitter/bootstrap":                         "2.3.*",
+        "twitter/bootstrap":                         "*",
         "jquery/jquery":                             "1.9.*",
         "leafo/lessphp":                        "dev-master",
-        "ner0tic/bootstrap-dropdown-hover":              "*",
 
         "knplabs/knp-menu":                      "2.0.x-dev",
         "knplabs/knp-menu-bundle":              "dev-master",

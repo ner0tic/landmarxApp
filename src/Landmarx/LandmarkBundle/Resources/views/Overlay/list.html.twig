@@ -1,8 +1,8 @@
-{% extends 'LandmarxUtilityBundle:Modal:sidebar.html.twig' %}
+{% extends 'LandmarxUtilityBundle:Overlay:sidebar.html.twig' %}
 
-{% block modal_title}{{ "landmarks" | title }}{% endblock %}
+{% block overlay_title %}{{ "landmarks" | title }}{% endblock %}
 
-{% block landmarks %}
+{% block overlay_main_content %}
 	<ul>
 	{% for landmark in landmarks %}
 		{% block landmark %}
@@ -26,3 +26,6 @@
 
 {% block divider %}<hr />{% endblock %}
 
+{% block overlay_footer_content %}
+
+{% endblock %}
