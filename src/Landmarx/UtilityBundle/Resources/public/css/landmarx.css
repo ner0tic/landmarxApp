@@ -22,6 +22,7 @@ header { height: 60px; border-bottom: 1px solid black; }
 #logo { min-width: 200px; float: left; }
 #logo img { }
 
+
 nav { float: left; height: 61px; }
 nav ul { margin-left: 16px; font-size: 18px; font-weight: bold; letter-spacing: 2px; color: #196a94; font-family: 'Simonetta', cursive; text-align: top; }
 nav ul li { margin-left: 2px; display: inline-block;  padding-left: 4px; padding-right: 4px; display: inline-block !important; }
@@ -29,7 +30,7 @@ nav ul li a { display: block; }
 nav ul li a:hover { color: #d41b11; }
 nav ul li.active a,
 .current > a { color: #4b490b !important; }
-
+/*
 li.dropdown ul { 
     display: none; 
     background-color: #ffffff; 
@@ -42,7 +43,7 @@ li.dropdown ul {
     z-index: 999;
     position: absolute;
 }
-li.dropdown ul li { display: inline; }
+li.dropdown ul li { display: inline; }*/
 
 /************************************************
 **                Content                      **

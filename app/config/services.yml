@@ -24,3 +24,9 @@ services:
         scope: request
         tags:
             - { name: knp_menu.menu, alias: main }
+
+    landmarx_menu.voter.request:
+        class: Landmarx\UtilityBundle\Menu\RequestVoter
+        arguments: [ "@service_container" ]
+        tags:
+            - { name: knp_menu.voter }

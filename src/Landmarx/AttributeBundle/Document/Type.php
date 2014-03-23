@@ -88,8 +88,8 @@ class Type
     }
 
     /**
-     * Get Type type
-     * @return Landmarx\AttributeBundle\Document\Type Type type
+     * Get renderer
+     * @return String renderer
      */
     public function getRenderer()
     {
@@ -129,9 +129,9 @@ class Type
 
     /**
      * Set Type type
-     * @param Landmarx\AttributeBundle\Interfaces\RendererInterface $renderer Renderer
+     * @param String $renderer Renderer
      */
-    public function setRenderer(RendererInterface $renderer)
+    public function setRenderer($renderer)
     {
         $this->renderer = $renderer;
 

@@ -12,7 +12,7 @@ use Landmarx\UtilityBundle\Traits\TimestampableTrait;
 use Landmarx\AttributeBundle\Traits\HasGroupsTrait;
 
 /**
- * @ODM\Document(repositoryClass="Landmarx\AttributeBundle\Repository\AttributekRepository")
+ * @ODM\Document(repositoryClass="Landmarx\AttributeBundle\Repository\AttributeRepository")
  */
 class Attribute
 {

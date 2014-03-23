@@ -1,0 +1,53 @@
+{% extends '::base.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('/bundles/landmarxuser/css/show.css') }}" rel="stylesheet" />
+    <link href="{{ asset('/bundles/landmarxattribute/css/attribute.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ asset('/bundles/landmarxattribute/css/map.css') }}" />
+{% endblock %}
+
+{% block content %}
+    {% block gmap %}
+    <div id="map"></div>
+    {% endblock %}
+    {% include 'LandmarxAttributeBundle:Modal:list' with {}}
+{% endblock %}
+
+{% block attributes %}
+<div class="span12 attributes">
+    <fieldset>
+        <legend>{{ 'attributes' | title }}</legend>
+        {% include 'LandmarxAttributeBundle:Attribute:index.html.twig', with { 'attributes': attribute.attributes } %}
+    </fieldset>
+</div>
+{% endblock %}
+
+{% block icon %}
+<div class="span4 icon">
+    <i class="icon {{ attribute.slug }}-icon"></i>
+</div>
+{% endblock %}
+
+{% block info %}
+<div class="span8 info">
+    <ul>
+        <li>{{ attribute.name | title }}</li>
+        <li>{{ attribute.type | title }}</li>
+        <li>{{ attribute.description }}</li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block categories %}
+<div class="span12 categories">
+    <fieldset>
+        <legend>{{ 'categories' | title }}</legend>
+        {% include 'LandmarxAttributeBundle:Category:index.html.twig', with { 'categories': attribute.categories } %}
+    </fieldset>
+</div>
+{% endblock %}

@@ -44,7 +44,7 @@
         </div>
         <nav class="navbar" role="navigation">
         {% block nav %}
-          {{ knp_menu_render('main', { 'style': 'justified-pills' }) }}
+          {{ knp_menu_render('main', { 'style': 'justified-pills', 'currentClass': 'active'}) }}
         {% endblock %}
         </nav>
       </div>
