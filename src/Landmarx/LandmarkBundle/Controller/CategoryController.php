@@ -14,6 +14,9 @@ use Landmarx\UtilityBundle\Controller\UtilityController as Controller;
 use Landmarx\LandmarkBundle\Document\Category;
 use Landmarx\LandmarkBundle\Form\Type\CategoryType;
 
+/**
+ * @Route("/categories")
+ */
 class CategoryController extends Controller
 {
     /**
@@ -47,7 +50,7 @@ class CategoryController extends Controller
                          ->getRepository('LandmarxLandmarkBundle:Category')
                          ->findOneBySlug($slug);
 
-        if (!$category) {
+        if (!$category instanceof Category) {
             $this->get('session')->getFlashBag()->add(
                 'error',
                 'no matching category found.'

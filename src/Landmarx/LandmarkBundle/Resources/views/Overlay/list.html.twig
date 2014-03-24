@@ -2,7 +2,7 @@
 
 {% block overlay_title %}{{ "landmarks" | title }}{% endblock %}
 
-{% block overlay_main_content %}
+{% block overlay_body_content %}
 	<ul>
 	{% for landmark in landmarks %}
 		{% block landmark %}
@@ -20,6 +20,8 @@
 				{% endblock %}
 			</li>
 		{% endblock %}
+	{% else %}
+		<li> no landmarks found.</li>
 	{% endfor %}
 	</ul>
 {% endblock %}

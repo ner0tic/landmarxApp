@@ -11,6 +11,7 @@ use Landmarx\UtilityBundle\Traits\BlameableTrait;
 use Landmarx\UtilityBundle\Traits\GeolocatableTrait;
 use Landmarx\UtilityBundle\Traits\SluggableTrait;
 use Landmarx\UtilityBundle\Traits\TimestampableTrait;
+use Landmarx\UtilityBundle\Traits\ToggleVisibilityTrait;
 
 /**
  * @ODM\Document(repositoryClass="Landmarx\LandmarkBundle\Repository\LandmarkRepository")
@@ -21,6 +22,7 @@ class Landmark
     use SluggableTrait;
     use TimestampableTrait;
     use BlameableTrait;
+    use ToggleVisibilityTrait;
 
     /**
      * Landmark id

@@ -1,9 +1,9 @@
 <?php
 namespace Landmarx\LandmarkBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\ODM\MongoDB\DocumentRepository;
 
-class CategoryRepository extends EntityRepository
+class CategoryRepository extends DocumentRepository
 {
     public function findAllOrderedByName()
     {

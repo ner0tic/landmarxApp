@@ -8,8 +8,8 @@
         $(document).ready(function() {
             map = new GMaps({
                 div: '#map',
-                lat: {{ landmark.coordinates.latitude }},
-                lng: {{ landmark.coordinates.longitude] }},
+                lat: {{ landmark.geolocation.latitude }},
+                lng: {{ landmark.geolocation.longitude }},
                 MapTypeId: google.maps.MapTypeId.TERRAIN,
                 disableDefaultUI: true,
             });
@@ -28,14 +28,14 @@
     {% block gmap %}
     <div id="map"></div>
     {% endblock %}
-    {% include 'LandmarxLandmarkBundle:Modal:list' with {}}
+    {% include 'LandmarxUtilityBundle:Overlay:show.html.twig' with { 'item': landmark } %}
 {% endblock %}
 
 {% block attributes %}
 <div class="span12 attributes">
     <fieldset>
         <legend>{{ 'attributes' | title }}</legend>
-        {% include 'LandmarxLandmarkBundle:Attribute:index.html.twig', with { 'attributes': landmark.attributes } %}
+        {% include 'LandmarxLandmarkBundle:Attribute:index.html.twig' with { 'attributes': landmark.attributes } %}
     </fieldset>
 </div>
 {% endblock %}
@@ -60,7 +60,7 @@
 <div class="span12 categories">
     <fieldset>
         <legend>{{ 'categories' | title }}</legend>
-        {% include 'LandmarxLandmarkBundle:Category:index.html.twig', with { 'categories': landmark.categories } %}
+        {% include 'LandmarxLandmarkBundle:Category:index.html.twig' with { 'categories': landmark.categories } %}
     </fieldset>
 </div>
 {% endblock %}

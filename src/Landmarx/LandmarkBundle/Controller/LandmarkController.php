@@ -23,6 +23,27 @@ class LandmarkController extends Controller
      */
     public function indexAction()
     {       
+        $query = $this->get('doctrine_mongodb')
+                                ->getRepository('LandmarxLandmarkBundle:Landmark')
+                                ->createQueryBuilder('l');
+
+        $pager = new Pagerfanta(new DoctrineODMMongoDBAdapter($query));
+        $pager->setMaxPerPage($this->getRequest()->get('pageMax', 10));
+        $pager->setCurrentPage($this->getRequest()->get('page', 1));
+
+        return array(
+            'landmarks' => $pager->getCurrentPageResults(),
+            'current' => $current,
+            'pager' => $pager
+        );
+    }
+
+    /**
+     * @Route("/nearby", name="landmarx_landmark_nearby")
+     * @Template("LandmarxLandmarkBundle:Landmark:index.html.twig")
+     */
+    public function nearbyAction()
+    {       
         $current = $this->ipinfo['ipinfo']['Location'];
         
         if (!is_array($current)) {
@@ -58,27 +79,6 @@ class LandmarkController extends Controller
             'current' => $current,
             'pager' => $pager
         );
-    }
-
-    /**
-     * @Route("/{slug}", name="landmarx_landmark_show")
-     * @Template("LandmarxLandmarkBundle:Landmark:show.html.twig")
-     */
-    public function showAction($slug)
-    {
-        $landmark = $this->get('doctrine_mongodb')
-                         ->getRepository('LandmarxLandmarkBundle:Landmark')
-                         ->findOneBySlug($slug);
-
-        if (!$landmark) {
-            $this->get('session')->getFlashBag()->add(
-                'error',
-                'no matching landmark found.'
-            );
-            $this->redirect($this->generateUrl('landmarx_landmark_index'));
-        }
-
-        return array('landmark' => $landmark);
     }
 
     /**
@@ -119,5 +119,26 @@ class LandmarkController extends Controller
     public function searchAction(Request $request)
     {
         
+    }
+
+    /**
+     * @Route("/{slug}", name="landmarx_landmark_show")
+     * @Template("LandmarxLandmarkBundle:Landmark:show.html.twig")
+     */
+    public function showAction($slug)
+    {
+        $landmark = $this->get('doctrine_mongodb')
+                         ->getRepository('LandmarxLandmarkBundle:Landmark')
+                         ->findOneBySlug($slug);
+
+        if (!$landmark) {
+            $this->get('session')->getFlashBag()->add(
+                'error',
+                'no matching landmark found.'
+            );
+            $this->redirect($this->generateUrl('landmarx_landmark_index'));
+        }
+
+        return array('landmark' => $landmark);
     }
 }

@@ -1,7 +1,7 @@
 landmarx_attribute:
     resource: "@LandmarxAttributeBundle/Controller/"
     type:     annotation
-    prefix:   /
+    prefix:   /attributes
 
 landmarx_collection:
     resource: "@LandmarxCollectionBundle/Controller/"
@@ -20,7 +20,7 @@ landmarx_user:
 
 homepage:
     pattern: /
-    defaults: { _controller: LandmarxLandmarkBundle:Landmark:index }
+    defaults: { _controller: LandmarxLandmarkBundle:Landmark:nearby }
 
 about:
     pattern: /about

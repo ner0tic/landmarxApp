@@ -1,5 +1,5 @@
 <?php
-namespace Landmarx\AttributeBundle\Traits;
+namespace Landmarx\UtilityBundle\Traits;
 
 trait ToggleVisibilityTrait
 {

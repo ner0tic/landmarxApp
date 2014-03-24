@@ -11,16 +11,6 @@ use Oh\GoogleMapFormTypeBundle\Validator\Constraints as OhAssert;
 class Geolocation
 {
     /**
-     * @ODM\Id
-     */
-    private $id;
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
      * Latitude
      * @var float
      * @ODM\Float
@@ -94,5 +84,10 @@ class Geolocation
     public function getLatLng()
     {
         return array('lat'=>$this->getLatitude(),'lng'=>$this->getLongitude());
+    }
+
+    public function getLatlng()
+    {
+        return $this->getLatLng();
     }
 }

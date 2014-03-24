@@ -15,7 +15,7 @@ class LandmarkType extends AbstractType
         $builder->add('description');
         $builder->add(
             'type',
-            'entity',
+            'document',
             array(
                 'property' =>  'name',
                 'class' => 'Landmarx\LandmarkBundle\Document\Type'
@@ -23,7 +23,7 @@ class LandmarkType extends AbstractType
         );
         $builder->add(
             'parent',
-            'entity',
+            'document',
             array(
                     'property' =>  'name',
                     'class' => 'Landmarx\LandmarkBundle\Document\Landmark'
@@ -31,7 +31,7 @@ class LandmarkType extends AbstractType
         );
         $builder->add(
             'categories',
-            'entity',
+            'document',
             array(
               'property' =>  'name',
               'class' => 'Landmarx\LandmarkBundle\Document\Category'
@@ -47,11 +47,11 @@ class LandmarkType extends AbstractType
         );
         $builder->add('created_by', 'hidden');
         $builder->add('updated_by', 'hidden');
-        $builder->add('latlng', new GoogleMapType());
         /*
+        $builder->add('latlng', new GoogleMapType());
         $builder->add(
             'attributes',
-            'entity',
+            'document',
             array(
                 'property' => 'name',
                 'class' => 'Landmarx\LandmarkBundle\Document\LandmarkAttribute'

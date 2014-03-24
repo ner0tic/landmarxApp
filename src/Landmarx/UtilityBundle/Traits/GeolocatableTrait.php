@@ -7,5 +7,4 @@ trait GeolocatableTrait
      * @ODM\EmbedOne(targetDocument="Landmarx\UtilityBundle\Document\Geolocation")
      */
     protected $geolocation;
-
 }

@@ -9,10 +9,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Landmarx\UtilityBundle\Traits\BlameableTrait;
 use Landmarx\UtilityBundle\Traits\SluggableTrait;
 use Landmarx\UtilityBundle\Traits\TimestampableTrait;
-use Landmarx\AttributeBundle\Traits\ToggleVisibilityTrait;
 use Landmarx\AttributeBundle\Traits\HasGroupsTrait;
 use Landmarx\AttributeBundle\Renderer\AttributeRenderer;
 use Landmarx\AttributeBundle\Interfaces\RendererInterface;
+use Landmarx\UtilityBundle\Traits\ToggleVisibilityTrait;
 
 /**
  * @ODM\Document(repositoryClass="Landmarx\AttributeBundle\Repository\TypeRepository")

@@ -8,8 +8,9 @@ use Landmarx\UtilityBundle\Menu\BaseBuilder;
 class MenuBuilder extends BaseBuilder
 {
     /**
-     * @param Request $request request
-     * @return MenuItem 
+     * Profile Menu
+     * @param  Request $request request
+     * @return MenuItem menu
      */
     public function profileMenu(Request $request)
     {
@@ -48,6 +49,105 @@ class MenuBuilder extends BaseBuilder
         );
     }
 
+    /**
+     * Landmark menu
+     * @param  boolean $include_submenus include submenus
+     * @return MenuItem menu
+     */
+    public function landmarkMenu($include_submenus = true)
+    {
+        $menu = $this->factory->createItem('landmarks')
+                ->setAttribute('dropdown', true)
+                ->setAttribute('icon', ' fa-thumb-tack');
+
+        $menu->addChild(
+            'list landmarks',
+            array('route' => 'landmarx_landmark_index')
+        );
+
+        $menu->addChild(
+            'find a landmark',
+            array('route'   =>  'landmarx_landmark_search')
+        );
+    
+        $menu->addChild(
+            'add a landmark',
+            array('route'         =>  'landmarx_landmark_new')
+        );
+
+        if ($include_submenus) {
+            $menu->addChild($this->categoryMenu(!$include_submenus));
+            $menu->addChild($this->landmarkTypeMenu(!$include_submenus));
+        }
+
+        return $menu;
+    }
+
+    public function categoryMenu($is_submenu = false)
+    {
+        $menu = $this->factory->createItem('landmark categories')
+                ->setAttribute('dropdown', true)
+                ->setAttribute('icon', 'fa-list');
+
+        $menu->addChild(
+            'list landmark categories',
+            array('route' => 'landmarx_category_index')
+        );
+
+        $menu->addChild(
+            'add a category',
+            array('route'         =>  'landmarx_category_new')
+        );
+
+        return $menu;
+    }
+
+    public function landmarkTypeMenu($is_submenu = false)
+    {
+        $menu = $this->factory->createItem('landmark types')
+                ->setAttribute('dropdown', true)
+                ->setAttribute('icon', 'fa-tags');
+
+        $menu->addChild(
+            'list landmark types',
+            array('route' => 'landmarx_type_index')
+        );
+
+        $menu->addChild(
+            'add a landmark type',
+            array('route'         =>  'landmarx_type_new')
+        );
+
+        return $menu;
+    }
+
+    public function collectionMenu()
+    {
+       $menu = $this->factory->createItem('collections')
+                ->setAttribute('dropdown', true)
+                ->setAttribute('icon', 'fa-list-alt');
+
+        $menu->addChild(
+            'my collections',
+            array('route'   =>  'landmarx_collection_index_by_user')
+        );
+
+        $menu->addChild(
+            'search',
+            array('route'   =>  'landmarx_collection_search')
+        );
+
+        $menu->addChild(
+            'create a collection',
+            array('route'   =>  'landmarx_collection_new')
+        );
+    }
+
+    /**
+     * create main menu
+     * @param  Request $request [description]
+     * @return MenuItem menu]
+     */
     public function createMainMenu(Request $request)
     {
         $menu = $this->factory->createItem('root');
@@ -61,73 +161,16 @@ class MenuBuilder extends BaseBuilder
         /**
         * Landmarks Menu
         **/
-        $menu->addChild('landmarks')
-                ->setAttribute('dropdown', true)
-                ->setAttribute('icon', 'icon-user');
-        $menu[ 'landmarks' ]->addChild(
-            'find a landmark',
-            array('route'   =>  'landmarx_landmark_search')
-        );
-    
-        $menu[ 'landmarks' ]->addChild(
-            'add a landmark',
-            array('route'         =>  'landmarx_landmark_new')
-        );
-        $menu[ 'landmarks' ][ 'add a landmark' ]->setLinkAttributes(
-            array(
-                'data-target'   =>  '#auth-modal',
-                'data-toggle'   =>  'modal'
-            )
-        );
-
-        /**
-        * Landmarks :: Categories Submenu
-        **/
-        $menu[ 'landmarks' ]->addChild(
-            'landmark categories',
-            array('route'   =>  'landmarx_category_index')
-        );
-        $menu[ 'landmarks' ][ 'landmark categories' ]->addChild(
-            'add a category',
-            array('route'   =>  'landmarx_category_new')
-        );
-
-        /**
-        * Landmarks :: Type Submenu
-        **/
-        $menu[ 'landmarks' ]->addChild(
-            'landmark types',
-            array('route'   =>  'landmarx_type_index')
-        );
-        if ($this->securityContext->isGranted('USER_ADMIN')) {
-            $menu[ 'landmarks' ][ 'landmark types' ]->addChild(
-                'add a type',
-                array('route'   =>  'landmarx_type_new')
-            );
-        }
-
+        $menu->addChild($this->landmarkMenu());
+        
         /**
         * Collections Menu
         **/
-        $menu->addChild(
-            'collections',
-            array('route'   =>  'landmarx_collection_index')
-        )
-        ->setAttribute('dropdown', true)
-        ->setAttribute('icon', 'icon-user');
-        $menu[ 'collections' ]->addChild(
-            'my collections',
-            array('route'   =>  'landmarx_collection_index_by_user')
-        );
-        $menu[ 'collections' ]->addChild(
-            'search',
-            array('route'   =>  'landmarx_collection_search')
-        );
-        $menu[ 'collections' ]->addChild(
-            'create',
-            array('route'   =>  'landmarx_collection_new')
-        );
+        $menu->addChild($this->collectionMenu());
         
+        /** 
+         * Auth / ProfileMmenu
+         **/
         if ($this->securityContext->isGranted('IS_AUTHENTICATED_ANONYMOUSLY')) {
             $menu->addChild(
                 'signup',

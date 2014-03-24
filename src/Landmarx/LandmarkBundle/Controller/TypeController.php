@@ -14,6 +14,9 @@ use Landmarx\UtilityBundle\Controller\UtilityController as Controller;
 use Landmarx\LandmarkBundle\Document\Type;
 use Landmarx\LandmarkBundle\Form\Type\TypeType;
 
+/**
+ * @Route("/types")
+ */
 class TypeController extends Controller
 {
     /**
